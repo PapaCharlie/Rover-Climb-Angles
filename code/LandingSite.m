@@ -1,5 +1,7 @@
 classdef LandingSite < handle
   properties
+    low
+    high
     dtm
     label
     max_angles
@@ -14,8 +16,8 @@ classdef LandingSite < handle
       self.label = pds_label_parse_v3(strcat(file, '.pdslabel'));
       dtm = fitsread(strcat(file, '.fits'));
       self.mask = dtm ~= min(dtm(:));
-      low = min(dtm(self.mask));
-      high = max(dtm(self.mask));
+      self.low = min(dtm(self.mask));
+      self.high = max(dtm(self.mask));
       dtm(~self.mask) = NaN;
       if ~all(isnan(dtm(1,:)))
         dtm = padarray(dtm,[1 0], NaN, 'pre');
@@ -104,6 +106,9 @@ classdef LandingSite < handle
       self.max_angles(startpos(1), startpos(2)) = 0;
       current = startpos + [ 0  1 ];
       iteration = 1;
+      % figure
+      % hold on
+      % imagesc(self.max_angles)
       while iteration <= (self.good_pixels + 10)
         neighbors = get_neighbors(current);
         for n = 1:4
@@ -111,7 +116,7 @@ classdef LandingSite < handle
           if all(and(neighbor > 0, neighbor <= self.datasize)) && ~isnan(self.max_angles(neighbor(1), neighbor(2)))
             height_diff = self.dtm(neighbor(1), neighbor(2)) - self.dtm(current(1),current(2));
             % climb_angle = round(atan(height_diff/self.res), 4);
-            climb_angle = round(atan(height_diff/self.res)*1.0e4)./1.0e4;
+            climb_angle = round(atan(height_diff/self.res), 4);
             if self.max_angles(neighbor(1), neighbor(2)) > climb_angle
               self.max_angles(neighbor(1), neighbor(2)) = climb_angle;
             end
@@ -121,8 +126,12 @@ classdef LandingSite < handle
         iteration = iteration + 1;
         if mod(iteration, round(self.good_pixels/100)) == 0
           fprintf('%d%% done; ', iteration/round(self.good_pixels/100))
+          % imagesc(self.max_angles)
         end
       end
+      % hold off
+      angles = self.max_angles;
+      save(strcat(self.file, '.mat'), 'angles')
     end
 
   end
