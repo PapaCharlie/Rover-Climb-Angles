@@ -19,7 +19,7 @@ classdef LandingSite < handle
     end
 
     function setup(self)
-      dtm = fitsread(strcat(file, '.fits'));
+      dtm = fitsread(strcat(self.file, '.fits'));
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
       self.high = max(dtm(self.mask));
