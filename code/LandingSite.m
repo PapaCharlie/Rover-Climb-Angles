@@ -50,12 +50,12 @@ classdef LandingSite < handle
       ng = get_neighbors(pos);
       for n = 1:length(ng)
         height_diff = self.dtm(ng(n,1), ng(n, 2)) - self.dtm(pos(1),pos(2));
-        climb_angle = round(atand(height_diff/self.res), 1);
-        if climb_angle < 0
-          climb_angle = 0;
-        end
-        if climb_angle < self.max_angles(ng(n, 1), ng(n, 2)) && ~isnan(self.dtm(ng(n, 1), ng(n, 2)))
-          self.fr.add_entry(py.tuple([climb_angle  ng(n, :)]));
+        % climb_angle = round(atand(height_diff/self.res), 1);
+        % if climb_angle < 0
+        %   climb_angle = 0;
+        % end
+        if height_diff < self.max_angles(ng(n, 1), ng(n, 2)) && ~isnan(self.dtm(ng(n, 1), ng(n, 2)))
+          self.fr.add_entry(py.tuple([height_diff  ng(n, :)]));
         end
       end
     end
@@ -121,9 +121,9 @@ classdef LandingSite < handle
           neighbor = neighbors(n,:);
           if all(and(neighbor > 0, neighbor <= self.datasize)) && ~isnan(self.max_angles(neighbor(1), neighbor(2)))
             height_diff = self.dtm(neighbor(1), neighbor(2)) - self.dtm(current(1),current(2));
-            climb_angle = round(atand(height_diff/self.res), 4);
-            if self.max_angles(neighbor(1), neighbor(2)) > climb_angle
-              self.max_angles(neighbor(1), neighbor(2)) = climb_angle;
+            % climb_angle = round(atand(height_diff/self.res), 4);
+            if self.max_angles(neighbor(1), neighbor(2)) > height_diff
+              self.max_angles(neighbor(1), neighbor(2)) = height_diff;
             end
           end
         end
