@@ -24,14 +24,18 @@ datasets = {
 % figure
 % imagesc(max_angles, [ low high ]);
 % colormap([ 0 0 0; jet ]);
+% axis equal;
+% colorbar;
 
 reses = zeros(size(datasets));
 goods = zeros(size(datasets));
+sizes = zeros(size(datasets));
 
 for n = 1:length(datasets)
   site = LandingSite(datasets{n});
   site.setup();
   reses(n) = site.res;
   goods(n) = site.good_pixels;
+  sizes(n) = whos('site.dtm').bytes;
   clear site;
 end
