@@ -1,5 +1,5 @@
 from astropy.io import fits
-from numpy import amin, nan, inf, full, array, arctan, isnan
+from numpy import amin, nan, inf, full, array, arctan, isnan, degrees
 import scipy.io as sio
 # from graph_tool.all import *
 
@@ -49,7 +49,7 @@ def compute_angles():
         if fits(pos):
             best = get_best_neighbor(pos)
             if best:
-                max_angles[pos] = round(arctan(dtm[pos] - dtm[best]), 4)
+                max_angles[pos] = round(degrees(arctan(dtm[pos] - dtm[best])), 4)
         if count % round(dtm.size/100) == 0:
             print count/int(dtm.size/100), '% done'
         count += 1

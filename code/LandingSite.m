@@ -42,13 +42,15 @@ classdef LandingSite < handle
     function reset(self)
       self.max_angles = Inf(size(self.dtm));
       self.max_angles(~self.mask) = NaN;
+      global frontier;
+      self.fr = frontier.Frontier();
     end
 
     function add_entries(self, pos)
       ng = get_neighbors(pos);
       for n = 1:length(ng)
         height_diff = self.dtm(ng(n,1), ng(n, 2)) - self.dtm(pos(1),pos(2));
-        climb_angle = round(atan(height_diff/self.res), 1);
+        climb_angle = round(atand(height_diff/self.res), 1);
         if climb_angle < 0
           climb_angle = 0;
         end
@@ -60,12 +62,13 @@ classdef LandingSite < handle
 
     function compute_max_angles(self, startpos)
       function frontier_search
-        for i = 1:1000
-          i
-          if mod(i, 100) == 0
+        for i = 1:5000
+          if mod(i, 50) == 0
             disp(i)
           end
+          % self.fr.heap
           tops = self.fr.popall();
+          % self.fr.heap
           for n = 1:length(tops)
             if self.max_angles(tops{n}{2}, tops{n}{3}) == Inf
               self.max_angles(tops{n}{2}, tops{n}{3}) = tops{n}{1};
@@ -79,7 +82,6 @@ classdef LandingSite < handle
       end
 
       global frontier;
-      self.fr = [];
       self.fr = frontier.new_frontier();
 
       self.max_angles(startpos(1), startpos(2)) = 0;
@@ -119,7 +121,7 @@ classdef LandingSite < handle
           neighbor = neighbors(n,:);
           if all(and(neighbor > 0, neighbor <= self.datasize)) && ~isnan(self.max_angles(neighbor(1), neighbor(2)))
             height_diff = self.dtm(neighbor(1), neighbor(2)) - self.dtm(current(1),current(2));
-            climb_angle = round(atan(height_diff/self.res), 4);
+            climb_angle = round(atand(height_diff/self.res), 4);
             if self.max_angles(neighbor(1), neighbor(2)) > climb_angle
               self.max_angles(neighbor(1), neighbor(2)) = climb_angle;
             end
