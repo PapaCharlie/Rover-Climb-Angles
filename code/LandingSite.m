@@ -23,23 +23,23 @@ classdef LandingSite < handle
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
       self.high = max(dtm(self.mask));
-      dtm(~self.mask) = NaN;
-      if ~all(isnan(dtm(1,:)))
-        dtm = padarray(dtm,[1 0], NaN, 'pre');
-      end
-      if ~all(isnan(dtm(end,:)))
-        dtm = padarray(dtm,[1 0], NaN, 'post');
-      end
-      if ~all(isnan(dtm(:,1)))
-        dtm = padarray(dtm,[0 1], NaN, 'pre');
-      end
-      if ~all(isnan(dtm(:,end)))
-        dtm = padarray(dtm,[0 1], NaN, 'post');
-      end
-      self.dtm = dtm;
+%      dtm(~self.mask) = NaN;
+%      if ~all(isnan(dtm(1,:)))
+%        dtm = padarray(dtm,[1 0], NaN, 'pre');
+%      end
+%      if ~all(isnan(dtm(end,:)))
+%        dtm = padarray(dtm,[1 0], NaN, 'post');
+%      end
+%      if ~all(isnan(dtm(:,1)))
+%        dtm = padarray(dtm,[0 1], NaN, 'pre');
+%      end
+%      if ~all(isnan(dtm(:,end)))
+%        dtm = padarray(dtm,[0 1], NaN, 'post');
+%      end
+%      self.dtm = dtm;
       self.datasize = size(self.dtm);
-      self.max_angles = Inf(self.datasize);
-      self.max_angles(~self.mask) = NaN;
+%      self.max_angles = Inf(self.datasize);
+%      self.max_angles(~self.mask) = NaN;
       self.good_pixels = numel(find(self.mask));
       self.res = self.label.image_map_projection.mapscale;
       % global frontier;
