@@ -10,7 +10,7 @@ mask = dtm == bad
 dtm[mask] = nan
 max_angles = full(dtm.shape, inf)
 
-fits = lambda pos: 0 <= pos[0] <= dtm.shape[0] and 0 <= pos[1] <= dtm.shape[1]
+fits = lambda pos: 0 <= pos[0] <= dtm.shape[0] and 0 < pos[1] < dtm.shape[1]
 
 startpos = tuple(map(lambda x: x/2, dtm.shape))
 max_angles[startpos] = 0

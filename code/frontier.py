@@ -15,7 +15,7 @@ class Frontier:
 
     def popall(self):
         ls = [heappop(self.heap)]
-        while self.peek()[0] == ls[0][0]:
+        while len(self.heap) > 0 and self.peek()[0] == ls[0][0]:
             ls.append(heappop(self.heap))
         return ls
 

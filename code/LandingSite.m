@@ -48,7 +48,7 @@ classdef LandingSite < handle
       ng = get_neighbors(pos);
       for n = 1:length(ng)
         height_diff = self.dtm(ng(n,1), ng(n, 2)) - self.dtm(pos(1),pos(2));
-        climb_angle = round(atan(height_diff/self.res), 4);
+        climb_angle = round(atan(height_diff/self.res), 1);
         if climb_angle < 0
           climb_angle = 0;
         end
@@ -60,7 +60,8 @@ classdef LandingSite < handle
 
     function compute_max_angles(self, startpos)
       function frontier_search
-        for i = 1:10000
+        for i = 1:1000
+          i
           if mod(i, 100) == 0
             disp(i)
           end
