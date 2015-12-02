@@ -2,3 +2,4 @@ data/
 .build/
 proposal.pdf
 *.mat
+*.pyc

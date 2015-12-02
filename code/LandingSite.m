@@ -47,36 +47,42 @@ classdef LandingSite < handle
     function add_entries(self, pos)
       ng = get_neighbors(pos);
       for n = 1:length(ng)
-        height_diff = self.dtm(ng{n}(1),ng{n}(2)) - self.dtm(pos(1),pos(2));
+        height_diff = self.dtm(ng(n,1), ng(n, 2)) - self.dtm(pos(1),pos(2));
         climb_angle = round(atan(height_diff/self.res), 4);
         if climb_angle < 0
           climb_angle = 0;
         end
-        if climb_angle < self.max_angles(ng{n}(1), ng{n}(2)) && ~isnan(self.dtm(ng{n}(1), ng{n}(2)))
-          self.fr.insert(Entry(climb_angle, ng{n}));
+        if climb_angle < self.max_angles(ng(n, 1), ng(n, 2)) && ~isnan(self.dtm(ng(n, 1), ng(n, 2)))
+          self.fr.add_entry(py.tuple([climb_angle  ng(n, :)]));
         end
       end
     end
 
     function compute_max_angles(self, startpos)
       function frontier_search
-        for i = 1:10
-          i
-          length(self.fr.entries)
+        for i = 1:10000
+          if mod(i, 100) == 0
+            disp(i)
+          end
           tops = self.fr.popall();
           for n = 1:length(tops)
-            self.max_angles(tops{n}.pos(1), tops{n}.pos(2)) = tops{n}.climb_angle;
-            self.add_entries(tops{n}.pos);
+            if self.max_angles(tops{n}{2}, tops{n}{3}) == Inf
+              self.max_angles(tops{n}{2}, tops{n}{3}) = tops{n}{1};
+              self.add_entries([tops{n}{2}, tops{n}{3}]);
+            end
           end
         end
       end
       if nargin == 1
         startpos = round(size(self.dtm)./2.0);
       end
+
+      global frontier;
+      self.fr = [];
+      self.fr = frontier.new_frontier();
+
       self.max_angles(startpos(1), startpos(2)) = 0;
-      self.fr = Frontier(self);
       self.add_entries(startpos);
-      % current_max = 0;
       frontier_search;
     end
 
@@ -106,16 +112,12 @@ classdef LandingSite < handle
       self.max_angles(startpos(1), startpos(2)) = 0;
       current = startpos + [ 0  1 ];
       iteration = 1;
-      % figure
-      % hold on
-      % imagesc(self.max_angles)
       while iteration <= (self.good_pixels + 10)
         neighbors = get_neighbors(current);
         for n = 1:4
           neighbor = neighbors(n,:);
           if all(and(neighbor > 0, neighbor <= self.datasize)) && ~isnan(self.max_angles(neighbor(1), neighbor(2)))
             height_diff = self.dtm(neighbor(1), neighbor(2)) - self.dtm(current(1),current(2));
-            % climb_angle = round(atan(height_diff/self.res), 4);
             climb_angle = round(atan(height_diff/self.res), 4);
             if self.max_angles(neighbor(1), neighbor(2)) > climb_angle
               self.max_angles(neighbor(1), neighbor(2)) = climb_angle;
@@ -126,12 +128,10 @@ classdef LandingSite < handle
         iteration = iteration + 1;
         if mod(iteration, round(self.good_pixels/100)) == 0
           fprintf('%d%% done; ', iteration/round(self.good_pixels/100))
-          % imagesc(self.max_angles)
         end
       end
-      % hold off
       angles = self.max_angles;
-      save(strcat(self.file, '.mat'), 'angles')
+      save(strcat('../data', self.file, '.mat'), 'angles')
     end
 
   end
