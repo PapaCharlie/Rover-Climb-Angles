@@ -36,7 +36,7 @@ classdef LandingSite < handle
 %      if ~all(isnan(dtm(:,end)))
 %        dtm = padarray(dtm,[0 1], NaN, 'post');
 %      end
-%      self.dtm = dtm;
+      self.dtm = dtm;
       self.datasize = size(self.dtm);
 %      self.max_angles = Inf(self.datasize);
 %      self.max_angles(~self.mask) = NaN;
