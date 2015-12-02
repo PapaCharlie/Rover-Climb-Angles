@@ -42,8 +42,8 @@ classdef LandingSite < handle
       self.max_angles(~self.mask) = NaN;
       self.good_pixels = numel(find(self.mask));
       self.res = self.label.image_map_projection.mapscale;
-      global frontier;
-      self.fr = frontier.Frontier();
+      % global frontier;
+      % self.fr = frontier.Frontier();
     end
 
     function add_entries(self, pos)
