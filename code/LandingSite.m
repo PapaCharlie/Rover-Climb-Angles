@@ -14,6 +14,9 @@ classdef LandingSite < handle
   methods
     function self = LandingSite(file)
       self.label = pds_label_parse_v3(strcat(file, '.pdslabel'));
+    end
+
+    function setup(self)
       dtm = fitsread(strcat(file, '.fits'));
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
@@ -37,11 +40,6 @@ classdef LandingSite < handle
       self.max_angles(~self.mask) = NaN;
       self.good_pixels = numel(find(self.mask));
       self.res = self.label.image_map_projection.mapscale;
-    end
-
-    function reset(self)
-      self.max_angles = Inf(size(self.dtm));
-      self.max_angles(~self.mask) = NaN;
       global frontier;
       self.fr = frontier.Frontier();
     end

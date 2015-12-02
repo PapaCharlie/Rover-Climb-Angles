@@ -3,3 +3,4 @@ data/
 proposal.pdf
 *.mat
 *.pyc
+.ipynb_checkpoints/

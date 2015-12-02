@@ -1,9 +1,6 @@
 addpath('../data');
 close all
 
-global frontier;
-frontier = py.importlib.import_module('frontier');
-
 datasets = {
   'DTEEC_011417_1755_011562_1755_U01',
   'DTEEC_011844_1855_002812_1855_A01',
@@ -20,9 +17,21 @@ datasets = {
   'DTEEC_041277_2115_040776_2115_A01'
 };
 
-ares3 = LandingSite(datasets{end});
+% load(strcat('../data/',datasets{end},'.mat'))
+% max_angles(max_angles == Inf) = NaN;
+% low = min(max_angles(:));
+% high = max(max_angles(:));
 % figure
-% imagesc(ares3.dtm, [ ares3.low, ares3.high ]);
+% imagesc(max_angles, [ low high ]);
 % colormap([ 0 0 0; jet ]);
-% clear all
-% mawrth_vallis = LandingSite('DTEEC_028011_2055_028288_2055_A01')
+
+reses = zeros(size(datasets));
+goods = zeros(size(datasets));
+
+for n = 1:length(datasets)
+  site = LandingSite(datasets{n});
+  site.setup();
+  reses(n) = site.res;
+  goods(n) = site.good_pixels;
+  clear site;
+end
