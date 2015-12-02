@@ -1,5 +1,6 @@
 classdef LandingSite < handle
   properties
+    file
     low
     high
     dtm
@@ -13,6 +14,7 @@ classdef LandingSite < handle
   end
   methods
     function self = LandingSite(file)
+      self.file = file;
       self.label = pds_label_parse_v3(strcat(file, '.pdslabel'));
     end
 
