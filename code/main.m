@@ -36,6 +36,7 @@ for n = 1:length(datasets)
   site.setup();
   reses(n) = site.res;
   goods(n) = site.good_pixels;
-  sizes(n) = whos('site.dtm').bytes;
+  k = whos('site.dtm');
+  sizes(n) = k.bytes;
   clear site;
 end
