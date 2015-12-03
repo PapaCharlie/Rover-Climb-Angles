@@ -17,28 +17,18 @@ datasets = {
   'DTEEC_041277_2115_040776_2115_A01'
 };
 
-% load(strcat('../data/',datasets{end},'.mat'))
-% max_angles(max_angles == Inf) = NaN;
-% low = min(max_angles(:));
-% high = max(max_angles(:));
-% figure
-% imagesc(max_angles, [ low high ]);
-% colormap([ 0 0 0; jet ]);
-% axis equal;
-% colorbar;
+% reses = zeros(size(datasets));
+% goods = zeros(size(datasets));
+% sizes = zeros(size(datasets));
 
-reses = zeros(size(datasets));
-goods = zeros(size(datasets));
-sizes = zeros(size(datasets));
-
-for n = 1:length(datasets)
-  site = LandingSite(datasets{n});
-  site.setup();
-  reses(n) = site.res;
-  goods(n) = site.good_pixels;
-  k = site.dtm;
-  k = whos('k');
-  sizes(n) = k.bytes;
-  clear site;
-  clear k;
-end
+% for n = 1:length(datasets)
+%   site = LandingSite(datasets{n});
+%   site.setup();
+%   reses(n) = site.res;
+%   goods(n) = site.good_pixels;
+%   k = site.dtm;
+%   k = whos('k');
+%   sizes(n) = k.bytes;
+%   clear site;
+%   clear k;
+% end
