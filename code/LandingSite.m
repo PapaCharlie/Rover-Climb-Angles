@@ -27,7 +27,12 @@ classdef LandingSite < handle
       % heap = MinHeap(2, Entry(0, startpos));
       heap = cFibHeap;
       heap.insert(Entry(0, startpos));
+      count = 0;
       while heap.n
+        count = count + 1;
+        if mod(count, round(self.good_pixels/100)) == 0
+          fprintf('%d%% done; ', count/round(self.good_pixels/100))
+        end
         node = heap.extractMin;
         ns = [ neighbors(:,1) + node.pos(1), neighbors(:,2) + node.pos(2) ];
         for n = 1:4
@@ -50,8 +55,15 @@ classdef LandingSite < handle
       end
     end
 
-    function setup(self)
+    function setup(self, cut)
+      if nargin < 2
+        cut = false;
+      end
       dtm = fitsread(strcat(self.file, '.fits'));
+      if cut
+        s = size(dtm);
+        dtm = dtm(s(1)*4/10:s(1)*5/10, s(2)*4/10:s(2)*5/10);
+      end
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
       self.high = max(dtm(self.mask));
