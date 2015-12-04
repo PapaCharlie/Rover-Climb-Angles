@@ -1,4 +1,5 @@
 addpath('../data');
+addpath('./fibheap');
 close all
 
 datasets = {
@@ -32,5 +33,8 @@ datasets = {
 %   clear site;
 %   clear k;
 % end
-load_and_plot('DTEEC_015985_2040_016262_2040_U01')
-load_and_plot('DTEEC_041277_2115_040776_2115_A01')
+% load_and_plot('DTEEC_015985_2040_016262_2040_U01')
+% load_and_plot('DTEEC_041277_2115_040776_2115_A01')
+ares3 = LandingSite(datasets{end});
+ares3.setup();
+

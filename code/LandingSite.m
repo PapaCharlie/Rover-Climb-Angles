@@ -18,28 +18,60 @@ classdef LandingSite < handle
       self.label = pds_label_parse_v3(strcat(file, '.pdslabel'));
     end
 
+    function dijkstra(self, startpos)
+      neighbors = [ 1 0 ; 0 1 ; -1 0 ; 0 -1 ];
+      if nargin == 1
+        startpos = round(size(self.dtm)./2.0);
+      end
+      self.max_angles(startpos(1), startpos(2)) = 0;
+      % heap = MinHeap(2, Entry(0, startpos));
+      heap = cFibHeap;
+      heap.insert(Entry(0, startpos));
+      while heap.n
+        node = heap.extractMin;
+        ns = [ neighbors(:,1) + node.pos(1), neighbors(:,2) + node.pos(2) ];
+        for n = 1:4
+          neighbor = ns(n,:);
+          if all(and(ns(n,:) > 0, ns(n,:) <= self.datasize)) && ~isnan(self.dtm(ns(n,1), ns(n,2)))
+            if abs(node.height_diff) < abs(self.dtm(ns(n,1), ns(n,2)) - self.dtm(node.pos(1),node.pos(2)))
+              alt = self.dtm(ns(n,1), ns(n,2)) - self.dtm(node.pos(1),node.pos(2));
+            else
+              alt = node.height_diff;
+            end
+            if abs(alt) < abs(self.max_angles(ns(n,1), ns(n,2)))
+              self.max_angles(ns(n,1), ns(n,2)) = alt;
+              % if heap.IsFnodell
+              %   heap = MinHeap(heap.capacity * 2, heap.x);
+              % end
+              heap.insert(Entry(alt, ns(n,:)));
+            end
+          end
+        end
+      end
+    end
+
     function setup(self)
       dtm = fitsread(strcat(self.file, '.fits'));
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
       self.high = max(dtm(self.mask));
-%      dtm(~self.mask) = NaN;
-%      if ~all(isnan(dtm(1,:)))
-%        dtm = padarray(dtm,[1 0], NaN, 'pre');
-%      end
-%      if ~all(isnan(dtm(end,:)))
-%        dtm = padarray(dtm,[1 0], NaN, 'post');
-%      end
-%      if ~all(isnan(dtm(:,1)))
-%        dtm = padarray(dtm,[0 1], NaN, 'pre');
-%      end
-%      if ~all(isnan(dtm(:,end)))
-%        dtm = padarray(dtm,[0 1], NaN, 'post');
-%      end
+      dtm(~self.mask) = NaN;
+      if ~all(isnan(dtm(1,:)))
+        dtm = padarray(dtm,[1 0], NaN, 'pre');
+      end
+      if ~all(isnan(dtm(end,:)))
+        dtm = padarray(dtm,[1 0], NaN, 'post');
+      end
+      if ~all(isnan(dtm(:,1)))
+        dtm = padarray(dtm,[0 1], NaN, 'pre');
+      end
+      if ~all(isnan(dtm(:,end)))
+        dtm = padarray(dtm,[0 1], NaN, 'post');
+      end
       self.dtm = dtm;
       self.datasize = size(self.dtm);
-%      self.max_angles = Inf(self.datasize);
-%      self.max_angles(~self.mask) = NaN;
+      self.max_angles = Inf(self.datasize);
+      self.max_angles(~self.mask) = NaN;
       self.good_pixels = numel(find(self.mask));
       self.res = self.label.image_map_projection.mapscale;
       % global frontier;
