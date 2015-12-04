@@ -62,7 +62,7 @@ classdef LandingSite < handle
       dtm = fitsread(strcat(self.file, '.fits'));
       if cut
         s = size(dtm);
-        dtm = dtm(s(1)*4/10:s(1)*5/10, s(2)*4/10:s(2)*5/10);
+        dtm = dtm(round(s(1)*4/10):round(s(1)*5/10), round(s(2)*4/10):round(s(2)*5/10));
       end
       self.mask = dtm ~= min(dtm(:));
       self.low = min(dtm(self.mask));
