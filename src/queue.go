@@ -69,6 +69,6 @@ func main() {
   // Take the items out; they arrive in decreasing angle order.
   for pq.Len() > 0 {
     item := heap.Pop(&pq).(*Item)
-    fmt.Printf("%2.f:(%d,%d) ", item.angle, item.x, item.y)
+    fmt.Printf("%.2f:(%d,%d) ", item.angle, item.x, item.y)
   }
 }
