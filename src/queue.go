@@ -60,10 +60,10 @@ func main() {
   // Create a angle queue, put the items in it, and
   // establish the angle queue (heap) invariants.
   pq := make(Frontier, 4)
-  pq[0] = Item{1,0,0.1,0}
-  pq[1] = Item{0,1,0.2,1}
-  pq[2] = Item{-1,0,1,2}
-  pq[3] = Item{0,-1,3,3}
+  pq[0] = &Item{1,0,0.1,0}
+  pq[1] = &Item{0,1,0.2,1}
+  pq[2] = &Item{-1,0,1,2}
+  pq[3] = &Item{0,-1,3,3}
   heap.Init(&pq)
 
   // Take the items out; they arrive in decreasing angle order.
