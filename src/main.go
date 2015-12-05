@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Position struct {
@@ -78,6 +79,6 @@ func main() {
 
 	dijkstra(shape, &dtm, &max_angles, startpos)
 
-	WriteArray(&max_angles, "zerp.csv")
+	WriteArray(&max_angles, strings.Replace(dataset, ".fits", ".csv", 1))
 
 }
