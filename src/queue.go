@@ -47,8 +47,9 @@ func (pq *Frontier) Pop() interface{} {
 }
 
 // update modifies the angle and value of an Item in the queue.
-func (pq *Frontier) update(item *Item, angle float32, angle float32) {
-  item.value = value
+func (pq *Frontier) update(item *Item, x int, y int, angle float32) {
+  item.x = x
+  item.y = y
   item.angle = angle
   heap.Fix(pq, item.index)
 }
