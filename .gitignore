@@ -1,4 +1,5 @@
 data/
+outputs/
 .build/
 proposal.pdf
 *.mat
