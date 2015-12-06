@@ -23,8 +23,8 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 	fits := func(pos Position) bool {
 		return 0 <= pos.x && pos.x < shape[0] &&
 			0 <= pos.y && pos.y < shape[1] &&
-			!math.IsNaN(dtm[pos.x][pos.y]) // &&
-		// !math.IsInf(max_angles[pos.x][pos.y], 1)
+			!math.IsNaN(dtm[pos.x][pos.y]) &&
+			math.IsInf(max_angles[pos.x][pos.y], 1)
 	}
 
 	fr := NewMinHeap()
@@ -36,7 +36,7 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 	fmt.Println("Dataset size:", size)
 	count := 0
 	avg_diff := 0.0
-	for count < size && fr.Len() > 0 {
+	for fr.Len() > 0 {
 		node := fr.PopEl()
 		count++
 		if count%(size/100) == 0 {
