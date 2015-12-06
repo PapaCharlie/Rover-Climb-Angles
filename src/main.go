@@ -72,7 +72,7 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(good_pixels)
+	fmt.Println("Good pixels:", good_pixels)
 
 	dijkstra(shape, &dtm, &max_angles, startpos)
 
