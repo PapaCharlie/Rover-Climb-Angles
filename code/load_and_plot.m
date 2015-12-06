@@ -1,4 +1,4 @@
-function load_and_plot(ds)
+function [max_angles] = load_and_plot(ds)
   % load(strcat('../data/', ds, '.mat'));
   fileID = fopen(strcat('../data/', ds, '.bin'));
   site = LandingSite(ds);
