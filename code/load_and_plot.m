@@ -24,7 +24,7 @@ function load_and_plot(ds)
 
   fig = figure;
   histogram(max_angles, 50);
-  xlim([-20 20]);
+  % xlim([-20 20]);
   xlabel 'Required angle';
   ylabel 'Num pixels';
   % set(fig,'yscale','log');
