@@ -1,5 +1,8 @@
 function load_and_plot(ds)
-  load(strcat('../data/', ds, '.mat'));
+  % load(strcat('../data/', ds, '.mat'));
+  fileID = fopen(strcat('../data/', ds, '.mat'));
+  LandingSite.label
+  max_angles = fread(fileID, [16897, 7138], 'double');
   max_angles(max_angles == Inf) = NaN;
   max_angles = atand(max_angles);
   low = max(min(max_angles(:)), -20);
