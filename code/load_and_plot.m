@@ -2,7 +2,7 @@ function load_and_plot(ds)
   % load(strcat('../data/', ds, '.mat'));
   fileID = fopen(strcat('../data/', ds, '.mat'));
   site = LandingSite(ds);
-  data_size = [site.label.image.linesamples, site.label.image.lines];
+  data_size = [site.label.image.lines, site.label.image.linesamples];
   max_angles = fread(fileID, data_size, 'double');
   max_angles(max_angles == Inf) = NaN;
   max_angles = atand(max_angles);
