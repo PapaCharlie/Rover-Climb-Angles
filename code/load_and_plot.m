@@ -20,13 +20,13 @@ function [max_angles] = load_and_plot(ds)
   ylabel(h, 'Angle required to access');
   % export_fig(strcat('../outputs/', ds, '.png'));
   xlim([0 size(max_angles,2)]);
-  saveas(fig, strcat('../figures/', ds, '-angles.pdf'));
+  export_fig(strcat('../figures/', ds, '-angles.pdf'));
 
   fig = figure;
   histogram(max_angles, 50);
   % xlim([-20 20]);
   xlabel 'Required angle';
   ylabel 'Num pixels';
-  set(fig,'YScale','log');
-  saveas(strcat('../figures/', ds, '-hist.pdf'));
+  % set(fig,'YScale','log');
+  export_fig(strcat('../figures/', ds, '-hist.pdf'));
 end
