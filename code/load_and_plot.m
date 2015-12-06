@@ -5,8 +5,8 @@ function [max_angles] = load_and_plot(ds)
   data_size = [site.label.image.lines, site.label.image.linesamples];
   max_angles = fread(fileID, data_size, 'double', 0, 'b');
   max_angles(max_angles == Inf) = NaN;
-  max_angles(max_angles == 0) = NaN;
-  % max_angles = atand(max_angles);
+  % max_angles(max_angles == 0) = NaN;
+  max_angles = atand(max_angles);
   % low = max(min(max_angles(:)), -20);
   % high = min(max(max_angles(:)), 20);
   low = min(max_angles(:));
