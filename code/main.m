@@ -38,5 +38,6 @@ datasets = {
 % ares3 = LandingSite(datasets{end});
 % ares3.setup(true);
 for n = 1:length(datasets)
+  disp(strcat('Drawing ', datasets{n}));
   load_and_plot(datasets{end});
 end

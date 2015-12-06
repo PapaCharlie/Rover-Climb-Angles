@@ -27,6 +27,6 @@ function [max_angles] = load_and_plot(ds)
   % xlim([-20 20]);
   xlabel 'Required angle';
   ylabel 'Num pixels';
-  set(fig,'yscale','log');
-  export_fig(strcat('../figures/', ds, '-hist.pdf'));
+  set(fig,'YScale','log');
+  saveas(strcat('../figures/', ds, '-hist.pdf'));
 end
