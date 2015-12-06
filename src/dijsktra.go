@@ -40,20 +40,21 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 		node := fr.PopEl()
 		count++
 		if count%(size/100) == 0 {
-			fmt.Sprintf("%v%% done; ", count/(size/100))
+			fmt.Printf("%v%% done; ", count/(size/100))
 		}
 		for _, n := range neighbors {
 			neighbor := node.Add(n)
 			if fits(neighbor) {
 				diff := dtm[neighbor.x][neighbor.y] - dtm[node.x][node.y]
-				avg_diff = (avg_diff + diff) / 2.0
 				alt := math.Max(math.Abs(node.HeightDiff), math.Abs(diff))
-				if alt < math.Abs(max_angles[neighbor.x][neighbor.y]) {
+				if alt < max_angles[neighbor.x][neighbor.y] {
 					if math.Abs(node.HeightDiff) < math.Abs(diff) {
+						avg_diff = (avg_diff + diff) / 2.0
 						max_angles[neighbor.x][neighbor.y] = diff
 						fr.PushEl(&Element{Position: neighbor, HeightDiff: diff})
 					} else {
 						max_angles[neighbor.x][neighbor.y] = node.HeightDiff
+						avg_diff = (avg_diff + node.HeightDiff) / 2.0
 						fr.PushEl(&Element{Position: neighbor, HeightDiff: node.HeightDiff})
 					}
 				}
