@@ -39,5 +39,5 @@ datasets = {
 % ares3.setup(true);
 for n = 1:length(datasets)
   disp(sprintf('Drawing %s', datasets{n}));
-  load_and_plot(datasets{end});
+  load_and_plot(datasets{n});
 end
