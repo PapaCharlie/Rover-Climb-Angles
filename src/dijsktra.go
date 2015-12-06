@@ -43,20 +43,21 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 			if fits(neighbor) {
 				count++
 				diff := dtm[neighbor.x][neighbor.y] - dtm[node.x][node.y]
+				avg_diff = (avg_diff + diff) / 2.0
 				alt := math.Max(math.Abs(node.HeightDiff), math.Abs(diff))
 				if alt < math.Abs(max_angles[neighbor.x][neighbor.y]) {
 					if math.Abs(node.HeightDiff) < math.Abs(diff) {
-						avg_diff = (avg_diff + node.HeightDiff) / 2.0
-						max_angles[neighbor.x][neighbor.y] = node.HeightDiff
-						fr.PushEl(&Element{Position: neighbor, HeightDiff: node.HeightDiff})
-					} else {
-						avg_diff = (avg_diff + diff) / 2.0
 						max_angles[neighbor.x][neighbor.y] = diff
 						fr.PushEl(&Element{Position: neighbor, HeightDiff: diff})
+					} else {
+						max_angles[neighbor.x][neighbor.y] = node.HeightDiff
+						fr.PushEl(&Element{Position: neighbor, HeightDiff: node.HeightDiff})
 					}
 				}
 			}
 		}
 	}
 	fmt.Println("Pixels visited:", count)
+	fmt.Println("iff:", avg_diff)
+	return
 }

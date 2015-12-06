@@ -63,7 +63,7 @@ func main() {
 		for y := 0; y < shape[1]; y++ {
 			if val := units[0].FloatAt(x, y); val > minval {
 				good_pixels++
-				dtm[x][y] = val
+				dtm[x][y] = val + minval
 				max_angles[x][y] = math.Inf(1)
 			} else {
 				dtm[x][y] = math.NaN()
@@ -74,7 +74,6 @@ func main() {
 	fmt.Println("Good pixels:", good_pixels)
 
 	dijkstra(shape, &dtm, &max_angles, startpos)
-
-	WriteArray(&max_angles, strings.Replace(dataset, ".fits", ".csv", 1))
+	WriteArray(&max_angles, strings.Replace(dataset, ".fits", ".bin", 1))
 
 }
