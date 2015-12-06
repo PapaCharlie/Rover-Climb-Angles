@@ -47,6 +47,7 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 			if fits(neighbor) {
 				diff := dtm[neighbor.x][neighbor.y] - dtm[node.x][node.y]
 				alt := math.Max(math.Abs(node.HeightDiff), math.Abs(diff))
+				count++
 				if alt < max_angles[neighbor.x][neighbor.y] {
 					if math.Abs(node.HeightDiff) < math.Abs(diff) {
 						avg_diff = (avg_diff + diff) / 2.0

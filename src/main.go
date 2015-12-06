@@ -63,7 +63,7 @@ func main() {
 		for y := 0; y < shape[1]; y++ {
 			if val := units[0].FloatAt(x, y); val > minval {
 				good_pixels++
-				dtm[x][y] = val + minval
+				dtm[x][y] = val - minval
 				max_angles[x][y] = math.Inf(1)
 			} else {
 				dtm[x][y] = math.NaN()
