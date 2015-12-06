@@ -42,13 +42,13 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 			if fits(neighbor) {
 				diff := dtm[neighbor.x][neighbor.y] - dtm[node.x][node.y]
 				alt := math.Max(math.Abs(node.HeightDiff), math.Abs(diff))
-				if alt < max_angles[neighbor.x][neighbor.y] {
-					if alt == math.Abs(diff) {
-						max_angles[neighbor.x][neighbor.y] = diff
-						fr.PushEl(&Element{Position: neighbor, HeightDiff: diff})
-					} else {
+				if alt < math.Abs(max_angles[neighbor.x][neighbor.y]) {
+					if math.Abs(node.HeightDiff) < math.Abs(diff) {
 						max_angles[neighbor.x][neighbor.y] = node.HeightDiff
 						fr.PushEl(&Element{Position: neighbor, HeightDiff: node.HeightDiff})
+					} else {
+						max_angles[neighbor.x][neighbor.y] = diff
+						fr.PushEl(&Element{Position: neighbor, HeightDiff: diff})
 					}
 				}
 			}
