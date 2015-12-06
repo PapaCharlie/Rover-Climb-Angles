@@ -39,7 +39,7 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 	for count < size && fr.Len() > 0 {
 		node := fr.PopEl()
 		count++
-		if math.Mod(count/size, 100) {
+		if math.Mod(float64(count/size), 100.0) == 0.0 {
 			fmt.Println(count/size, "% done;")
 		}
 		for _, n := range neighbors {
