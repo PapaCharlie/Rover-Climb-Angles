@@ -55,7 +55,6 @@ func main() {
 
 	dtm := make([][]float64, shape[0])
 	max_angles := make([][]float64, shape[0])
-
 	good_pixels := 0
 
 	for x := 0; x < shape[0]; x++ {
