@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/heap"
+	"math"
 )
 
 type Element struct {
@@ -21,7 +22,7 @@ func NewMinHeap() *MinHeap {
 func (mh MinHeap) Len() int { return len(mh) }
 
 func (mh MinHeap) Less(i, j int) bool {
-	return mh[i].HeightDiff < mh[j].HeightDiff
+	return math.Abs(mh[i].HeightDiff) < math.Abs(mh[j].HeightDiff)
 }
 
 func (mh MinHeap) Swap(i, j int) {
