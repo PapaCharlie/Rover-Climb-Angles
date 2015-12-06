@@ -1,6 +1,6 @@
 function [max_angles] = load_and_plot(ds)
   % load(strcat('../data/', ds, '.mat'));
-  fileID = fopen(strcat('../data/', ds, '.bin'));
+  fileID = fopen(strcat('../outputs/', ds, '.bin'));
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
   max_angles = fread(fileID, data_size, 'double', 0, 'b');
@@ -20,7 +20,7 @@ function [max_angles] = load_and_plot(ds)
   ylabel(h, 'Angle required to access');
   % export_fig(strcat('../outputs/', ds, '.png'));
   xlim([0 size(max_angles,2)]);
-  export_fig(strcat('../outputs/', ds, '-angles.pdf'));
+  saveas(fig, strcat('../figures/', ds, '-angles.pdf'));
 
   fig = figure;
   histogram(max_angles, 50);
@@ -28,5 +28,5 @@ function [max_angles] = load_and_plot(ds)
   xlabel 'Required angle';
   ylabel 'Num pixels';
   set(fig,'yscale','log');
-  export_fig(strcat('../outputs/', ds, '-hist.pdf'));
+  export_fig(strcat('../figures/', ds, '-hist.pdf'));
 end

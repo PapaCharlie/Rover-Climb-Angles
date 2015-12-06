@@ -37,4 +37,6 @@ datasets = {
 % load_and_plot('DTEEC_041277_2115_040776_2115_A01')
 % ares3 = LandingSite(datasets{end});
 % ares3.setup(true);
-% load_and_plot(datasets{end});
+for n = 1:length(datasets)
+  load_and_plot(datasets{end});
+end
