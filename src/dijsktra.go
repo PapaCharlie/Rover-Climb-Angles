@@ -36,7 +36,7 @@ func dijkstra(shape [2]int, dtmptr, max_anglesptr *[][]float64, startpos Positio
 	fmt.Println("Dataset size:", size)
 	count := 0
 	avg_diff := 0.0
-	for count < size && fr.Len() > 0 {
+	for count < size/2 && fr.Len() > 0 {
 		node := fr.PopEl()
 		count++
 		if count%(size/100) == 0 {
