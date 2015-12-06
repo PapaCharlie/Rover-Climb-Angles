@@ -34,9 +34,6 @@ var datasets = []string{
 var minval = -10000.0
 
 func main() {
-	cut := 1
-
-	// fmt.Println(strconv.FormatFloat(3.1415, 'E', -1, 64))
 
 	var dataset string
 	if len(os.Args) == 2 {
@@ -51,8 +48,8 @@ func main() {
 	units, _ := fits.Open(reader)
 
 	var shape [2]int
-	shape[0] = units[0].Naxis[0] / cut
-	shape[1] = units[0].Naxis[1] / cut
+	shape[0] = units[0].Naxis[0]
+	shape[1] = units[0].Naxis[1]
 	startpos := Position{shape[0] / 2, shape[1] / 2}
 	fmt.Println(shape, startpos)
 

@@ -27,8 +27,8 @@ func WriteArray(arrptr *[][]float64, filename string) {
 	defer f.Close()
 
 	arr := *arrptr
-	for x := 0; x < len(arr); x++ {
-		for y := 0; y < len(arr[x]); y++ {
+	for x := 0; x <= len(arr); x++ {
+		for y := 0; y <= len(arr[x]); y++ {
 			writer.Write(Float64bytes(arr[x][y]))
 		}
 	}
