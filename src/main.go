@@ -73,7 +73,7 @@ func main() {
 	}
 	fmt.Println("Good pixels:", good_pixels)
 
-	dijkstra(shape, &dtm, &max_angles, startpos)
-	WriteArray(&max_angles, strings.Replace(dataset, ".fits", ".bin", 1))
+	// dijkstra(shape, &dtm, &max_angles, startpos)
+	WriteArray(&dtm, strings.Replace(dataset, ".fits", ".bin", 1))
 
 }
