@@ -62,7 +62,7 @@ func main() {
 		dtm[x] = make([]float64, shape[1])
 		max_angles[x] = make([]float64, shape[1])
 		for y := 0; y < shape[1]; y++ {
-			if val := units[0].FloatAt(y, x); val > minval {
+			if val := units[0].FloatAt(x, y); val > minval {
 				good_pixels++
 				dtm[x][y] = val
 				max_angles[x][y] = math.Inf(1)
