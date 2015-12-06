@@ -31,7 +31,7 @@ var datasets = []string{
 	"../data/DTEEC_041277_2115_040776_2115_A01.fits",
 }
 
-var minval = -10000.0
+var minval = -100000.0
 
 func main() {
 
@@ -73,7 +73,7 @@ func main() {
 	}
 	fmt.Println("Good pixels:", good_pixels)
 
-	// dijkstra(shape, &dtm, &max_angles, startpos)
+	dijkstra(shape, &dtm, &max_angles, startpos)
 	WriteArray(&dtm, strings.Replace(dataset, ".fits", ".bin", 1))
 
 }
