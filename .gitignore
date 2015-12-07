@@ -1,7 +1,8 @@
-data/
 outputs/
 .build/
-proposal.pdf
+.ipynb_checkpoints/
+final_project.pdf
 *.mat
 *.pyc
-.ipynb_checkpoints/
+*.IMG
+*.fits
