@@ -1,4 +1,4 @@
-outputs/
+outputs/*.bin
 .build/
 .ipynb_checkpoints/
 final_project.pdf
