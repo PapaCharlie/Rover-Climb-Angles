@@ -2,20 +2,20 @@ SHELL := /bin/sh
 
 SRC := $(wildcard *.tex)
 PDF := $(SRC:.tex=.pdf)
-
-ifeq ($(OS),Windows_NT)
-	pdflatexflags := "-aux-directory=.build"
-else
-	pdflatexflags := -output-directory=.build
-endif
+FIGURES := $(filter-out $(wildcard figures/*-crop.pdf), $(wildcard figures/*.pdf))
 
 all:
 	-mkdir .build
 	-rm $(PDF)
 	for t in $(SRC) ; do \
-		pdflatex -shell-escape $(pdflatexflags) $$t ; \
+		pdflatex -shell-escape -output-directory=.build $$t ; \
 	done
 	make links
+
+crop:
+	for fig in $(FIGURES) ; do \
+		pdfcrop $$fig ; \
+	done
 
 clean:
 	-rm $(PDF)
@@ -24,4 +24,6 @@ clean:
 links:
 	-rm $(PDF)
 	ln -s .build/*.pdf .
+
+
 
