@@ -24,7 +24,6 @@ classdef LandingSite < handle
         startpos = round(size(self.dtm)./2.0);
       end
       self.max_angles(startpos(1), startpos(2)) = 0;
-      % heap = MinHeap(2, Entry(0, startpos));
       heap = cFibHeap;
       heap.insert(Entry(0, startpos));
       count = 0;
@@ -45,9 +44,6 @@ classdef LandingSite < handle
             end
             if abs(alt) < abs(self.max_angles(ns(n,1), ns(n,2)))
               self.max_angles(ns(n,1), ns(n,2)) = alt;
-              % if heap.IsFnodell
-              %   heap = MinHeap(heap.capacity * 2, heap.x);
-              % end
               heap.insert(Entry(alt, ns(n,:)));
             end
           end
@@ -86,18 +82,12 @@ classdef LandingSite < handle
       self.max_angles(~self.mask) = NaN;
       self.good_pixels = numel(find(self.mask));
       self.res = self.label.image_map_projection.mapscale;
-      % global frontier;
-      % self.fr = frontier.Frontier();
     end
 
     function add_entries(self, pos)
       ng = get_neighbors(pos);
       for n = 1:length(ng)
         height_diff = self.dtm(ng(n,1), ng(n, 2)) - self.dtm(pos(1),pos(2));
-        % climb_angle = round(atand(height_diff/self.res), 1);
-        % if climb_angle < 0
-        %   climb_angle = 0;
-        % end
         if height_diff < self.max_angles(ng(n, 1), ng(n, 2)) && ~isnan(self.dtm(ng(n, 1), ng(n, 2)))
           self.fr.add_entry(py.tuple([height_diff  ng(n, :)]));
         end
@@ -110,9 +100,7 @@ classdef LandingSite < handle
           if mod(i, 50) == 0
             disp(i)
           end
-          % self.fr.heap
           tops = self.fr.popall();
-          % self.fr.heap
           for n = 1:length(tops)
             if self.max_angles(tops{n}{2}, tops{n}{3}) == Inf
               self.max_angles(tops{n}{2}, tops{n}{3}) = tops{n}{1};
@@ -152,7 +140,7 @@ classdef LandingSite < handle
       end
     end
 
-    function bad_compute_max_angles(self,startpos)
+    function BFS(self,startpos)
       if nargin == 1
         startpos = round(self.datasize./2.0);
       end
@@ -165,7 +153,6 @@ classdef LandingSite < handle
           neighbor = neighbors(n,:);
           if all(and(neighbor > 0, neighbor <= self.datasize)) && ~isnan(self.max_angles(neighbor(1), neighbor(2)))
             height_diff = self.dtm(neighbor(1), neighbor(2)) - self.dtm(current(1),current(2));
-            % climb_angle = round(atand(height_diff/self.res), 4);
             if self.max_angles(neighbor(1), neighbor(2)) > height_diff
               self.max_angles(neighbor(1), neighbor(2)) = height_diff;
             end
@@ -183,19 +170,3 @@ classdef LandingSite < handle
 
   end
 end
-
-% function DFS(lp, cp) % last position, current position
-%   % remember, dtm is distance from craft
-%   if ~isnan(self.dtm(cp(1),cp(2)))
-%     height_diff = self.dtm(lp(1),lp(2)) - self.dtm(cp(1),cp(2));
-%     climb_angle = atan(height_diff/self.res);
-%     if self.max_angles(cp(1), cp(2)) > climb_angle
-%       neighbors = [ 1 0 ; 0 1 ; -1 0 ; 0 -1 ];
-%       neighbors(:, 1) = neighbors(:,1) + cp(1);
-%       neighbors(:, 2) = neighbors(:,2) + cp(2);
-%       for n = 1:4
-%         DFS(cp, neighbors(n,:))
-%       end
-%     end
-%   end
-% end
