@@ -1,5 +1,4 @@
 addpath('../data');
-addpath('./fibheap');
 close all
 
 datasets = {
@@ -18,26 +17,16 @@ datasets = {
   'DTEEC_041277_2115_040776_2115_A01'
 };
 
-% reses = zeros(size(datasets));
-% goods = zeros(size(datasets));
-% sizes = zeros(size(datasets));
+reses = zeros(size(datasets));
+pixels = zeros(size(datasets));
+sizes = zeros(size(datasets));
 
 % for n = 1:length(datasets)
 %   site = LandingSite(datasets{n});
-%   site.setup();
 %   reses(n) = site.res;
-%   goods(n) = site.good_pixels;
-%   k = site.dtm;
-%   k = whos('k');
-%   sizes(n) = k.bytes;
-%   clear site;
-%   clear k;
+%   sizes(n) = site.label
 % end
-% load_and_plot('DTEEC_015985_2040_016262_2040_U01')
-% load_and_plot('DTEEC_041277_2115_040776_2115_A01')
-% ares3 = LandingSite(datasets{end});
-% ares3.setup(true);
-for n = 1:length(datasets)
-  disp(sprintf('Drawing %s', datasets{n}));
-  load_and_plot(datasets{n});
-end
+% for n = 1:length(datasets)
+%   disp(sprintf('Drawing %s', datasets{n}));
+%   load_and_plot(datasets{n});
+% end

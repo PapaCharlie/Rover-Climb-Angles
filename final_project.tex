@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+% \documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumerate, fancyhdr, graphicx, amsmath, lipsum, wrapfig, nameref, url, hyperref}
+
+\title{Mars Landing Site Traversability}
+\author{Paul Chesnais (pmc85)}
+\date{\today}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{Paul Chesnais (pmc85)}
+\chead{Mars Landing Site Traversability}
+\rhead{\today}
+\fancyfoot{}
+\rfoot{\thepage}
+\lfoot{\includegraphics[height=20pt]{Logo}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\usepackage[binary-units=true]{siunitx}
+\sisetup{load-configurations = abbreviations}
+
+\newcommand{\e}{&=}
+\newcommand{\p}[1]{\times 10^{#1}}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\section{Abstract}
+\label{sec:abstract}
+Exploring a planet on the ground isn't easy. Especially since as of right now, rovers are the only things capable of doing it. Unfortunately, designing rovers is incredibly difficult. Given the topology for a particular landing site, how do you optimize each component of a rover? Some of these components govern how steep a slope the rover can climb or make its way down on. This project aims to illustrate how ``agile'' Mars rovers should be by computing traversability maps of candidate landing sites.
+
+\section{Datasets}
+\label{sec:datasets}
+\par For the purposes of this project, we need a dataset that is accurate on a scale that is reasonable relative to the Rover's size. Curiosity was 3 meters long \cite{bib:curiosity}, and the Mars 2020 rover is also expected to be 3 meters long \cite{bib:rover2020}. This dictates the order of the resolution of the datasets required for this study to be meaningful. Suppose we had a topographical map with a horizontal resolution on the scale of 20 meters or even 10 meters between data points. Unfortunately, insurmountable rocks and obstacles do come in all shapes and sizes, many of which smaller than 20 meters. Such a map would not necessarily reflect the presence of these obstacles and pose an unforeseen problem to rover. This effectively leaves us with two choices in topographical maps: HSRC DTMs (Digital Topographical Maps) from the Mars Express mission, or HiRISE DTMs from the Mars Reconnaissance Orbiter mission. HSRC DTMs are on the scale of 2 meters per pixel \cite{bib:hsrc} and HiRISE DTMs are on the accuracy of 1 meter per pixel \cite{bib:abouthirise}. For the sake of this study's rigor, the decision was made to use the more recent and more accurate HiRISE DTMs. Given that the horizontal resolution of those DTMs is three times smaller than the length of the rover, any unforeseen obstacles will be equally small, and in theory relatively easy to avoid.
+\par Figure~\ref{fig:dtms} is a table showing which datasets were used:
+
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+A plot that shows a rover's maximum climb angle versus total area coverable would be extremely useful in making decisions when designing a mission. This project hopes to produce such a plot for all candidate landing sites of Mars, and potentially beyond, in order to provide teams with this help.
+
+\begin{thebibliography}{12}
+\bibitem{bib:rover2020}
+  \url{http://mars.nasa.gov/mars2020/mission/rover/}
+\bibitem{bib:curiosity}
+  \url{http://mars.nasa.gov/msl/mission/rover/}
+\bibitem{bib:hirise}
+  \url{http://mars.nasa.gov/mro/mission/instruments/hirise/}
+\bibitem{bib:abouthirise}
+  \url{http://www.uahirise.org//dtm/about.php}
+\bibitem{bib:nasa-review}
+  \url{http://www.marsjournal.org/contents/2008/0002/files/som_mars_2008_0002.pdf}
+\bibitem{bib:angle}
+  \url{http://www.jpl.nasa.gov/news/news.php?feature=4596}
+\bibitem{bib:hsrc}
+  \url{http://pds-geosciences.wustl.edu/missions/mars_express/hrsc.htm}
+\end{thebibliography}
+
+\end{document}
