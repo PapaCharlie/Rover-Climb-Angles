@@ -48,7 +48,7 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
     Southwest Arabia Terra &  ESP\_011844\_1855\supcite{bib:ESP_011844_1855} & 1.74e+08 & 1.011655 & $\SI{107.39}{\kilo\meter\squared}$\\
     Gale Crater &             ESP\_023957\_1755\supcite{bib:ESP_023957_1755} & 1.14e+08 & 1.011763 & $\SI{79.47}{\kilo\meter\squared}$\\
     Holden Crater &           ESP\_019612\_1535\supcite{bib:ESP_019612_1535} & 1.90e+08 & 1.007219 & $\SI{122.50}{\kilo\meter\squared}$\\
-    Eberswalde Crater &       ESP\_020324\_1555\supcite{bib:ESP_020324_1555} & 1.64e+08 & 1.008208 & $\SI{110.22}{\kilo\meter\squared}$\\
+    Eberswalde Crater &       ESP\_019757\_1560\supcite{bib:ESP_019757_1560} & 1.64e+08 & 1.008208 & $\SI{110.22}{\kilo\meter\squared}$\\
     Mawrth Vallis &           ESP\_015985\_2040\supcite{bib:ESP_015985_2040} & 1.33e+08 & 1.008208 & $\SI{96.15}{\kilo\meter\squared}$\\
   \end{tabular}
   \caption{DTMs used and their respective properties}
@@ -86,7 +86,7 @@ is a generalization that finds the shortest path from a given starting node to a
 
 \subsection{Using the data}
 \label{sub:using_the_data}
-\par First, we want to represent the Graph explained above using the data. In this case, each pixel is a node $p$ and $height(p)$ is simply the value in the DTM at the position $p$. Next, each pixel is connected to its 4 closest neighbors, i.e. the pixels that are directly in contact with it. To avoid interpolation and potential errors, pixels are not connected to diagonal neighbors. As such, we can also set $d(u,v)$ to always be equal to the horizontal resolution in the dataset for any two neighboring pixels $u$ and $v$.
+\par First, we want to represent the Graph explained above using the data. In this case, each pixel is a node $p$ and $height(p)$ is simply the value in the DTM at the position $p$. Next, each pixel is connected to its 4 closest neighbors, i.e. the pixels that are directly in contact with it. To avoid interpolation and potential errors, pixels are not connected to diagonal neighbors. As such, we can also set $d(u,v)$ to always be equal to the horizontal resolution in the dataset for any two neighboring pixels $u$ and $v$. The starting position $s$ will be naively chosen to be the pixel at the center of the DTM.
 \par Next, we need to provide an implementation of the Frontier data structure, to the same specifications as defined above. In this case, a MinHeap is ideal because it fits the exact criteria. A MinHeap is a balanced data structure, where $push$ and $pop$ operations require that the MinHeap be rebalanced. If there are $n$ elements in the MinHeap, then rebalancing the MinHeap will take at worst $\log_2(n)$ operations. This means that finding the flattest pair in the MinHeap can be done very quickly with little overhead. Since our DTMs usually have more than 100 million pixels and the frontier of visited pixels can grow arbitrarily large, fast $push$ and $pop$ operations become crucial.
 \par Finally, we need to create the $required$ array. This is easily done by creating an array the same size as the DTM, then indexing into it exactly like we index into the DTM. Unfortunately, these operations become computationally expensive quite quickly. If the DTM takes 1 GB in memory, so will the $required$ array. Additionally, as said before, the Frontier can grow arbitrarily large. As such, in the absolute worst case scenario, computing the traversability map can require up to 3 GB of memory at runtime. This causes a lot of issues because not all of the data can be loaded into the processor's more restricted memory at a time, meaning that a lot of time is spent waiting for data from RAM. Fortunately, Modern RAM responds quite quickly and data usually will take a handful of CPU cycles to arrive.
 
@@ -111,7 +111,7 @@ is a generalization that finds the shortest path from a given starting node to a
 \par We can finally begin presenting the results of our hard work.
 \subsection{Southwest Arabia Terra\supcite{bib:ESP_011844_1855}}
 \label{sub:southwest_arabia_terra}
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \begin{subfigure}[t]{0.27\textwidth}
     \centering
@@ -130,7 +130,7 @@ is a generalization that finds the shortest path from a given starting node to a
   \label{fig:southwest}
 \end{figure}
 \par Figure~\ref{fig:southwest_dtm} and Figure~\ref{fig:southwest_traversability} respectively show the colored DTM, and the output traversability map for the Southwest Arabia Terra landing site. This map shows some rather interesting features. As we can see, the dark blue and the dark red in lower third of the site seem to indicate that the area is completely inaccessible. There is a very clear dividing line between this third and the rest of the map. This line is reflected in the DTM, where there is a cliff face along it. It does appear that the algorithm highlights these features and handled the cliff face quite well. As for the upper half of the map, there also seems to be a less severe divide between the low basin in the middle, and the higher terrain. The rover needs to be able to climb at least 5\textdegree to access this area. Looking at the traversability histogram in Figure~\ref{fig:southwest_hist}, we see that there are still a lot of pixels beyond the $\pm$20\textdegree bound, and a large segment of the pixels are located between +10\textdegree and +20\textdegree, i.e. the orange band above the inaccessible area.
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-hist.pdf}
   \caption{Traversability Histogram for the Southwest Arabia Terra Landing Site}
@@ -158,7 +158,7 @@ is a generalization that finds the shortest path from a given starting node to a
   \label{fig:mawrth}
 \end{figure}
 \par This section of the Mawrth Vallis landing site was chosen because of its odd topography. The DTM in Figure~\ref{fig:mawrth_dtm} suggests that there are three distinct plateaus, and no guarantee that there exists a climbable path connecting them. In other words, if the rover were to land in the lowest plateau, it would never be able to gain access to the remaining ones, and vice versa. Fortunately, the traversability map in Figure~\ref{fig:mawrth_traversability} informs us that the entire section is in fact quite flat. Almost all of the traversability map is shaded in yellow or light blue, implying that those areas can be reached with a required angle of $\pm$5\textdegree. Looking at the histogram in Figure~\ref{fig:mawrth_hist}, 95\% of the landing site can be covered with a little less than $\pm$10\textdegree.
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-hist.pdf}
   \caption{Traversability Histogram for the Mawrth Vallis Landing Site}
@@ -167,56 +167,38 @@ is a generalization that finds the shortest path from a given starting node to a
 
 \subsection{Eberswalde Crater\supcite{bib:ESP_015985_2040}}
 \label{sub:eberswalde_crater}
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
   \begin{subfigure}[t]{0.27\textwidth}
     \centering
-    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01.jpg}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01.jpg}
     \caption{Color altimetry map}
     \label{fig:eberswalde_dtm}
   \end{subfigure}
   ~
   \begin{subfigure}[t]{0.27\textwidth}
     \centering
-    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01-traversability_map.pdf}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01-traversability_map.pdf}
     \caption{Traversability map}
     \label{fig:eberswalde_traversability}
   \end{subfigure}
   \caption{Eberswalde Crater Landing Site Traversability Map}
   \label{fig:eberswalde}
 \end{figure}
-\par Finally, let us look at the landing site in Eberswalde crater. This section of the landing site looked relatively harmless at first.
-\begin{figure}[H]
+\par Finally, let us look at the landing site in Eberswalde crater. This section of the landing site looked relatively harmless at first. The DTM showed smooth
+\begin{figure}[h!]
   \centering
-  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01-hist.pdf}
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01-hist.pdf}
   \caption{Traversability Histogram for the Eberswalde Crater Landing Site}
   \label{fig:eberswalde_hist}
 \end{figure}
 
-
-
-% \begin{figure}[H]
-%   \centering
-%   \begin{subfigure}[t]{0.37\textwidth}
-%     \centering
-%     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01.jpg}
-%     \label{fig:southwest_dtm}
-%     \caption{Color altimetry map}
-%   \end{subfigure}
-%   ~
-%   \begin{subfigure}[t]{0.37\textwidth}
-%     \centering
-%     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01-traversability_map.pdf}
-%     \label{fig:southwest_traversability}
-%     \caption{Traversability map}
-%   \end{subfigure}
-%   \label{fig:southwest}
-%   \caption{Southwest Arabia Terra Landing Site Traversability Map}
-% \end{figure}
-
-\section{Future Work}
-\label{sec:future_work}
-
+\section{Weaknesses and Future Work}
+\label{sec:weaknesses_and_future_work}
+\par There are two major weaknesses in the current version of the algorithm.
+\par As mentioned in the algorithm's definition, the starting position is always picked to be the middle of the DTM. Essentially, this means that the required angles shown in the map are actually the angles required to access those points had we started from the center. Fortunately, a lot of information can still be inferred from these maps, even with this slight subtlety. One of the ways to fix this problem would be to use as a starting point the actual target area for the site. A better method would be to pick multiple starting positions. In this case, the frontier of reachable points would start disconnected, then merge with its cousin as the algorithm progresses. This would give us better understanding of the terrain.
+\par Another weakness in this algorithm is that it is a little naive. The difficulty in getting from point A to point B does not only lie in the angle of the slope between A and B. It also lies within the actual material the rover is going over. A slope of sand is harder to go over than a slope of gravel or rock. As such, one of the ways to improve this algorithm would be to keep track of a ``difficulty'' value of some sort, as opposed to only the angle. Suppose we had the albedo of the material at every point in addition to the height. With a mapping from albedo to terrain difficulty, it would be a matter of evaluating the ``difficulty'' rating of the slope between two points, for example by multiplying the terrain difficulty by the angle. In which case the values contained in the traversability maps would be more arbitrary, but be more informative.
+\par As long as the data is provided, both of these modifications are implementable without too much overhead.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -245,8 +227,8 @@ is a generalization that finds the shortest path from a given starting node to a
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_023957_1755}
 \bibitem{bib:ESP_019612_1535}
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019612_1535}
-\bibitem{bib:ESP_020324_1555}
-  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_020324_1555}
+\bibitem{bib:ESP_019757_1560}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019757_1560}
 \bibitem{bib:ESP_015985_2040}
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_015985_2040}
 \end{thebibliography}
