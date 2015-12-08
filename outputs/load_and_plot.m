@@ -1,5 +1,5 @@
 function [max_angles] = load_and_plot(ds)
-  ds = strrep(ds, '.fits','')
+  ds = strrep(strrep(ds, '.fits',''), 'data/', '')
   fileID = fopen(ds);
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
