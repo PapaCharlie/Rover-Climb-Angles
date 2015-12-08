@@ -7,7 +7,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	// "strings"
+	"strings"
 )
 
 type Position struct {
@@ -72,7 +72,7 @@ func main() {
 	fmt.Println("Dataset size:", shape[0]*shape[1])
 	fmt.Println("Good pixels:", good_pixels)
 
-	// dijkstra(shape, good_pixels, &dtm, &max_angles, startpos)
-	// WriteArray(&max_angles, strings.Replace(strings.Replace(dataset, ".fits", ".bin", 1), "/data/", "/outputs/", 1))
+	dijkstra(shape, good_pixels, &dtm, &max_angles, startpos)
+	WriteArray(&max_angles, strings.Replace(strings.Replace(dataset, ".fits", ".bin", 1), "/data/", "/outputs/", 1))
 
 }

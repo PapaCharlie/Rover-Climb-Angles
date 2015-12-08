@@ -3,7 +3,7 @@ SHELL := /bin/bash
 SRC := $(wildcard *.tex)
 PDF := $(SRC:.tex=.pdf)
 FIGURES := $(filter-out *-crop.pdf, $(shell find figures -name "*.pdf" -type f))
-DTMS := $(wildcard data/DTEEC*.fits)
+DTMS := $(wildcard data/DTEEC*.IMG)
 
 .PHONY: all $(DTMS)
 
@@ -30,6 +30,10 @@ links:
 	ln -s .build/*.pdf .
 
 $(DTMS):
-	cd dijkstra ; go build
-	dijkstra/dijkstra "$@"
-
+	$(eval FITS := $(subst .IMG,.fits,$@))
+	$(eval BIN := $(subst .IMG,.bin,$@))
+	test -e $(FITS) || img2fits "$@"
+	if [ test ! -e $(BIN) ] ; then \
+		cd dijkstra && go build && cd .. && dijkstra/dijkstra $(FITS) ; \
+	fi
+	cd outputs ; matlab -nodesktop -nosplash -r "load_and_plot('$(FITS)')"
