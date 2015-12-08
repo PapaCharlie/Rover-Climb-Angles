@@ -3,7 +3,6 @@ SHELL := /bin/bash
 SRC := $(wildcard *.tex)
 PDF := $(SRC:.tex=.pdf)
 FIGURES := $(filter-out *-crop.pdf, $(shell find figures -name "*.pdf" -type f))
-FIGURES += $(filter-out *-crop.pdf, $(shell find maps -name "*.pdf" -type f))
 DTMS := $(wildcard data/DTEEC*.IMG)
 
 .PHONY: all $(DTMS)

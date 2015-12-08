@@ -1,4 +1,4 @@
-function load_and_plot(ds)
+function [required] = load_and_plot(ds)
   % Assuming ds argument is of the type DTEEC_xxxxxx_xxxx_yyyyyy_yyyy_yyy
   % Then ESP name will ESP_xxxxxx_xxxx
   esp = strsplit(ds, '_');
@@ -33,5 +33,9 @@ function load_and_plot(ds)
   xlabel 'Required angle';
   ylabel 'Num pixels';
   xlim([-40 40]);
+  lim = get(gca, 'YLim');
+  left = prctile(required(~isnan(required)), 2.5);
+  right = prctile(required(~isnan(required)), 97.5);
+  p = patch([left, right, right, left], [0, 0, lim(2), lim(2)], 'FaceColor', 'k', 'FaceAlpha', 0.2);
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-hist.pdf')));
 end

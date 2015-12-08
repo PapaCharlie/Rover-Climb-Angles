@@ -99,7 +99,7 @@ is a generalization that finds the shortest path from a given starting node to a
 \subsection{Data Pipeline}
 \label{sub:data_pipeline}
 \par HiRISE DTMs come in the form of IMG files. This meant that they needed to be converted into a format that was readable by Golang. Golang already has a library that can read FITS files. As such, the USGS ISIS software package was used to convert the IMG files into FITS files. Then it is a simple matter of extracting the resolution and image size from the label included in the IMG file to get all the information required to compute the map.
-\par Once the algorithm has run its course, it saves the map to disk in a format that is readable by \MATLAB{}. The map is loaded into memory and stretched between -20\textdegree and 20\textdegree to show detail, under the assumption that rovers cannot, or prefer not to, climb slopes past those angles. Finally, a histogram is plotted to show the number of pixels that require a certain angle to reach.
+\par Once the algorithm has run its course, it saves the map to disk in a format that is readable by \MATLAB{}. The map is loaded into memory and stretched between -20\textdegree and 20\textdegree to show detail, under the assumption that rovers cannot, or prefer not to, climb slopes past those angles. Finally, what we will call a traversability histogram is plotted. A traversability histogram is a histogram that shows required angle versus number of pixels. To find the area a given rover can cover, integrate the histogram between the bounds $\alpha$ and $\beta$ where $\alpha$ and $\beta$ are respectively the steepest negative and positive angles the rover can climb.
 
 \section{Results}
 \label{sec:results}
@@ -111,37 +111,41 @@ is a generalization that finds the shortest path from a given starting node to a
 \par We can finally begin presenting the results of our hard work:
 \begin{figure}[h!]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.33\textwidth}
     \centering
     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01.jpg}
-    \label{fig:southwest_dtm}
     \caption{Color altimetry map}
+    \label{fig:southwest_dtm}
   \end{subfigure}
   ~
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.33\textwidth}
     \centering
     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-traversability_map.pdf}
-    \label{fig:southwest_traversability}
     \caption{Traversability map}
+    \label{fig:southwest_traversability}
   \end{subfigure}
-  \label{fig:southwest}
   \caption{Southwest Arabia Terra Landing Site Traversability Map}
+  \label{fig:southwest}
 \end{figure}
+\par Figure~\ref{fig:southwest_dtm} and Figure~\ref{fig:southwest_traversability} respectively show the DTM we were working with, and the output traversability map for the Southwest Arabia Terra landing site. This map shows some rather interesting features. As we can see, the dark blue and the dark red in lower third of the site seem to indicate that the area is completely inaccessible. There is a very clear dividing line between this third and the rest of the map. This line is reflected in the DTM, where there is a cliff face along it. It does appear that the algorithm highlights these features and handled the cliff face quite well. As for the upper half of the map, there also seems to be a less severe divide between the low basin in the middle, and the higher terrain. The rover needs to be able to climb at least 5\textdegree to access this area. Looking at the traversability histogram in Figure~\ref{fig:southwest_hist}, we see that there are still a lot of pixels beyond the $\pm$20\textdegree bound, and a large segment of the pixels are located between +10\textdegree and +20\textdegree, i.e. the orange band above the inaccessible area.
+
 \begin{figure}[h!]
   \centering
-  \includegraphics[height=0.5\textwidth]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-hist.pdf}
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-hist.pdf}
+  \caption{Traversability histogram for Southwest Arabia Terra Landing Site}
+  \label{fig:southwest_hist}
 \end{figure}
 
 % \begin{figure}[h!]
 %   \centering
-%   \begin{subfigure}[t]{0.32\textwidth}
+%   \begin{subfigure}[t]{0.37\textwidth}
 %     \centering
 %     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01.jpg}
 %     \label{fig:southwest_dtm}
 %     \caption{Color altimetry map}
 %   \end{subfigure}
 %   ~
-%   \begin{subfigure}[t]{0.32\textwidth}
+%   \begin{subfigure}[t]{0.37\textwidth}
 %     \centering
 %     \includegraphics[height=0.5\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01-traversability_map.pdf}
 %     \label{fig:southwest_traversability}
