@@ -34,7 +34,7 @@ $(DTMS):
 	$(eval FITS := $(subst .IMG,.fits,$@))
 	$(eval BIN := $(subst .IMG,.bin,$@))
 	test -e $(FITS) || img2fits "$@"
-	if [ ! -e $(BIN) ] ; then \
+	if [  -e $(BIN) ] ; then \
 		cd dijkstra && go build && cd .. && dijkstra/dijkstra $(FITS) ; \
 	fi
 	cd outputs ; matlab -nodesktop -nosplash -r "load_and_plot('$(FITS)');exit"
