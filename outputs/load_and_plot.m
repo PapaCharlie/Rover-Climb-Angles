@@ -1,4 +1,8 @@
 function [max_angles] = load_and_plot(ds)
+  % Assuming ds argument is of the type DTEEC_xxxxxx_xxxx_yyyyyy_yyyy_yyy
+  % Then ESP name will ESP_xxxxxx_xxxx
+  esp = strsplit(ds, '_');
+  esp = strcat('ESP_', esp(2), '_', esp(3));
   ds = strrep(strrep(ds, '.fits',''), 'data/', '')
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
@@ -16,12 +20,12 @@ function [max_angles] = load_and_plot(ds)
   h = colorbar;
   ylabel(h, 'Angle required to access');
   xlim([0 size(max_angles,2)]);
-  saveas(fig, strcat('../figures/maps/', ds, '-traversability_map.pdf'));
+  saveas(fig, strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
 
   fig = figure;
   histogram(max_angles, 50);
   xlabel 'Required angle';
   ylabel 'Num pixels';
-  saveas(fig, strcat('../figures/maps/', ds, '-hist.pdf'));
+  saveas(fig, strcat('../figures/maps/', esp, '/', ds, '-hist.pdf'));
   return
 end
