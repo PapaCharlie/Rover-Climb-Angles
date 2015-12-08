@@ -53,9 +53,12 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
   \label{fig:dtms}
 \end{figure*}
 
-\section{The Algorithm}
+\section{Methods}
 \label{sec:the_algorithm}
-\par Due to the sheer size of the data, there immediately were some problems.
+\subsection{The Algorithm}
+\label{sub:the_algorithm}
+\par The algorithm used was inspired by the single-source version of Dijsktra's algorithm. Dijsktra's algorithm is an algorithm used to find the shortest path from the starting node to a given node. The single-source version is a generalization that finds the shortest path from a given starting node to all the nodes in a graph.
+\par To begin, we treat the DTM as a graph, where all pixels are nodes, connected to their 4 neighbors to the East, North, West and South. To avoid any extrapolation, pixels are not connected to their diagonal neighbors.
 
 \section{Conclusions}
 \label{sec:conclusions}
