@@ -3,6 +3,9 @@ SHELL := /bin/bash
 SRC := $(wildcard *.tex)
 PDF := $(SRC:.tex=.pdf)
 FIGURES := $(filter-out *-crop.pdf, $(shell find figures -name "*.pdf" -type f))
+DTMS := $(wildcard data/DTEEC*.fits)
+
+.PHONY: all $(DTMS)
 
 all:
 	-mkdir .build
@@ -25,4 +28,8 @@ clean:
 links:
 	-rm $(PDF)
 	ln -s .build/*.pdf .
+
+$(DTMS):
+	cd dijkstra ; go build
+	dijkstra/dijkstra "$@"
 

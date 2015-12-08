@@ -1,12 +1,13 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/siravan/fits"
 	"math"
 	"os"
-	"strconv"
-	"strings"
+	"path/filepath"
+	// "strings"
 )
 
 type Position struct {
@@ -14,37 +15,35 @@ type Position struct {
 	y int
 }
 
-var datasets = []string{
-	"../data/DTEEC_011417_1755_011562_1755_U01.fits",
-	"../data/DTEEC_011844_1855_002812_1855_A01.fits",
-	"../data/DTEEC_015985_2040_016262_2040_U01.fits",
-	"../data/DTEEC_018854_1755_018920_1755_U01.fits",
-	"../data/DTEEC_019045_1530_019322_1530_U01.fits",
-	"../data/DTEEC_019612_1535_019678_1535_U01.fits",
-	"../data/DTEEC_019757_1560_020034_1560_U01.fits",
-	"../data/DTEEC_019823_1530_019889_1530_U01.fits",
-	"../data/DTEEC_020324_1555_020390_1555_U01.fits",
-	"../data/DTEEC_023957_1755_024023_1755_U01.fits",
-	"../data/DTEEC_024234_1755_024300_1755_U01.fits",
-	"../data/DTEEC_028011_2055_028288_2055_A01.fits",
-	"../data/DTEEC_041277_2115_040776_2115_A01.fits",
-}
-
-var minval = -100000.0
+const (
+	Minval = -100000.0
+)
 
 func main() {
 
 	var dataset string
 	if len(os.Args) == 2 {
-		i, _ := strconv.Atoi(os.Args[1])
-		dataset = datasets[i]
+		path, err := filepath.Abs(os.Args[1])
+		if err != nil {
+			panic(err)
+		}
+		if filepath.Ext(path) != ".fits" {
+			panic(errors.New("Argument was not a fits file"))
+		}
+		dataset = path
 	} else {
-		dataset = datasets[len(datasets)-1]
+		panic(errors.New("Usage: ./dijkstra FITS"))
 	}
 	fmt.Println(dataset)
 
-	reader, _ := os.Open(dataset)
-	units, _ := fits.Open(reader)
+	reader, err := os.Open(dataset)
+	if err != nil {
+		panic(err)
+	}
+	units, err := fits.Open(reader)
+	if err != nil {
+		panic(err)
+	}
 
 	var shape [2]int
 	shape[0] = units[0].Naxis[0]
@@ -60,9 +59,9 @@ func main() {
 		dtm[x] = make([]float64, shape[1])
 		max_angles[x] = make([]float64, shape[1])
 		for y := 0; y < shape[1]; y++ {
-			if val := units[0].FloatAt(x, y); val > minval {
+			if val := units[0].FloatAt(x, y); val > Minval {
 				good_pixels++
-				dtm[x][y] = val - minval
+				dtm[x][y] = val - Minval
 				max_angles[x][y] = math.Inf(1)
 			} else {
 				dtm[x][y] = math.NaN()
@@ -73,7 +72,7 @@ func main() {
 	fmt.Println("Dataset size:", shape[0]*shape[1])
 	fmt.Println("Good pixels:", good_pixels)
 
-	dijkstra(shape, good_pixels, &dtm, &max_angles, startpos)
-	WriteArray(&max_angles, strings.Replace(strings.Replace(dataset, ".fits", ".bin", 1), "/data/", "/outputs/", 1))
+	// dijkstra(shape, good_pixels, &dtm, &max_angles, startpos)
+	// WriteArray(&max_angles, strings.Replace(strings.Replace(dataset, ".fits", ".bin", 1), "/data/", "/outputs/", 1))
 
 }
