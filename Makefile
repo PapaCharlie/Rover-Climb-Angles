@@ -30,11 +30,17 @@ links:
 	-rm $(PDF)
 	ln -s .build/*.pdf .
 
+goget:
+	go get "github.com/siravan/fits"
+
+dijkstra:
+	cd dijkstra && go build
+
 $(DTMS):
 	$(eval FITS := $(subst .IMG,.fits,$@))
 	$(eval BIN := $(subst .IMG,.bin,$@))
 	test -e $(FITS) || img2fits "$@"
 	if [ ! -e $(BIN) ] ; then \
-		cd dijkstra && go build && cd .. && dijkstra/dijkstra $(FITS) ; \
+		make dijkstra && dijkstra/dijkstra $(FITS) ; \
 	fi
 	cd outputs ; matlab -nodesktop -nosplash -r "load_and_plot('$(FITS)');exit"
