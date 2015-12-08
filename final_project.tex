@@ -2,7 +2,7 @@
 % \documentclass[12pt, twocolumn]{article}
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{enumerate, fancyhdr, graphicx, amsmath, lipsum, wrapfig, nameref, url, hyperref,
-            setspace, color, csquotes, textcomp, subcaption }
+            setspace, color, csquotes, textcomp, subcaption, float }
 
 \title{Mars Landing Site Traversability}
 \author{Paul Chesnais (pmc85)}
@@ -108,7 +108,9 @@ is a generalization that finds the shortest path from a given starting node to a
 % Holden Crater &           ESP_019612_1535
 % Eberswalde Crater Delta & ESP_019757_1560
 % Mawrth Vallis &           ESP_015985_2040
-\par We can finally begin presenting the results of our hard work:
+\par We can finally begin presenting the results of our hard work.
+\subsection{Southwest Arabia Terra}
+\label{sub:southwest_arabia_terra}
 \begin{figure}[h!]
   \centering
   \begin{subfigure}[t]{0.33\textwidth}
@@ -127,14 +129,43 @@ is a generalization that finds the shortest path from a given starting node to a
   \caption{Southwest Arabia Terra Landing Site Traversability Map}
   \label{fig:southwest}
 \end{figure}
-\par Figure~\ref{fig:southwest_dtm} and Figure~\ref{fig:southwest_traversability} respectively show the DTM we were working with, and the output traversability map for the Southwest Arabia Terra landing site. This map shows some rather interesting features. As we can see, the dark blue and the dark red in lower third of the site seem to indicate that the area is completely inaccessible. There is a very clear dividing line between this third and the rest of the map. This line is reflected in the DTM, where there is a cliff face along it. It does appear that the algorithm highlights these features and handled the cliff face quite well. As for the upper half of the map, there also seems to be a less severe divide between the low basin in the middle, and the higher terrain. The rover needs to be able to climb at least 5\textdegree to access this area. Looking at the traversability histogram in Figure~\ref{fig:southwest_hist}, we see that there are still a lot of pixels beyond the $\pm$20\textdegree bound, and a large segment of the pixels are located between +10\textdegree and +20\textdegree, i.e. the orange band above the inaccessible area.
+\par Figure~\ref{fig:southwest_dtm} and Figure~\ref{fig:southwest_traversability} respectively show the colored DTM, and the output traversability map for the Southwest Arabia Terra landing site. This map shows some rather interesting features. As we can see, the dark blue and the dark red in lower third of the site seem to indicate that the area is completely inaccessible. There is a very clear dividing line between this third and the rest of the map. This line is reflected in the DTM, where there is a cliff face along it. It does appear that the algorithm highlights these features and handled the cliff face quite well. As for the upper half of the map, there also seems to be a less severe divide between the low basin in the middle, and the higher terrain. The rover needs to be able to climb at least 5\textdegree to access this area. Looking at the traversability histogram in Figure~\ref{fig:southwest_hist}, we see that there are still a lot of pixels beyond the $\pm$20\textdegree bound, and a large segment of the pixels are located between +10\textdegree and +20\textdegree, i.e. the orange band above the inaccessible area.
 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-hist.pdf}
-  \caption{Traversability histogram for Southwest Arabia Terra Landing Site}
+  \caption{Traversability histogram for the Southwest Arabia Terra Landing Site}
   \label{fig:southwest_hist}
 \end{figure}
+
+\subsection{Mawrth Vallis}
+\label{sub:mawrth_vallis}
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[t]{0.43\textwidth}
+    \centering
+    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01.jpg}
+    \caption{Color altimetry map}
+    \label{fig:mawrth_dtm}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.43\textwidth}
+    \centering
+    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-traversability_map.pdf}
+    \caption{Traversability map}
+    \label{fig:mawrth_traversability}
+  \end{subfigure}
+  \caption{Mawrth Vallis Landing Site Traversability Map}
+  \label{fig:mawrth}
+\end{figure}
+\par This section of the Mawrth Vallis landing site was chosen because of its odd topography. The DTM in Figure~\ref{fig:mawrth_dtm} suggests that there are three distinct plateaus, and no guarantee that there exists a climbable path connecting them. In other words, if the rover were to land in the lowest plateau, it would never be able to gain access to the remaining ones, and vice versa. Fortunately, the traversability map in Figure~\ref{fig:mawrth_traversability} informs us that the entire section is in fact quite flat. Almost all of the traversability map is shaded in yellow or light blue, implying that those areas can be reached with a required angle of $\pm$5\textdegree. Looking at the histogram in Figure~\ref{fig:mawrth_hist}, 95\% of the landing site can be covered with a little less than $\pm$10\textdegree.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-hist.pdf}
+  \caption{Traversability histogram for the Mawrth Vallis Terra Landing Site}
+  \label{fig:mawrth_hist}
+\end{figure}
+
 
 % \begin{figure}[h!]
 %   \centering
