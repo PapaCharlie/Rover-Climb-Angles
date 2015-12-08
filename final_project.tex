@@ -103,11 +103,6 @@ is a generalization that finds the shortest path from a given starting node to a
 
 \section{Results}
 \label{sec:results}
-% Southwest Arabia Terra &  ESP_011844_1855
-% Gale Crater &             ESP_023957_1755
-% Holden Crater &           ESP_019612_1535
-% Eberswalde Crater &       ESP_019757_1560
-% Mawrth Vallis &           ESP_015985_2040
 \par We can finally begin presenting the results of our hard work.
 \subsection{Southwest Arabia Terra\supcite{bib:ESP_011844_1855}}
 \label{sub:southwest_arabia_terra}
@@ -165,33 +160,8 @@ is a generalization that finds the shortest path from a given starting node to a
   \label{fig:mawrth_hist}
 \end{figure}
 
-\subsection{Eberswalde Crater\supcite{bib:ESP_015985_2040}}
-\label{sub:eberswalde_crater}
-\begin{figure}[h!]
-  \centering
-  \begin{subfigure}[t]{0.27\textwidth}
-    \centering
-    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01.jpg}
-    \caption{Color altimetry map}
-    \label{fig:eberswalde_dtm}
-  \end{subfigure}
-  ~
-  \begin{subfigure}[t]{0.27\textwidth}
-    \centering
-    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01-traversability_map.pdf}
-    \caption{Traversability map}
-    \label{fig:eberswalde_traversability}
-  \end{subfigure}
-  \caption{Eberswalde Crater Landing Site Traversability Map}
-  \label{fig:eberswalde}
-\end{figure}
-\par Finally, let us look at the landing site in Eberswalde crater. This section of the landing site looked relatively harmless at first. The DTM showed smooth
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_019757_1560/DTEEC_020324_1555_020390_1555_U01-hist.pdf}
-  \caption{Traversability Histogram for the Eberswalde Crater Landing Site}
-  \label{fig:eberswalde_hist}
-\end{figure}
+\subsection{Eberswalde, Gale and Holden Craters}
+Please see figures \ref{fig:eberswalde}, \ref{fig:eberswalde_hist}, \ref{fig:gale}, \ref{fig:gale_hist}, \ref{fig:holden} and \ref{fig:holden_hist} in the Appendix for the DTMs, traversability maps and traversability histograms of the candidate landing sites in Eberswalde, Gale and Holden craters. Additionally, the code's \href{https://github.com/PapaCharlie/Rover-Climb-Angles/tree/master/figures/maps/}{\ttfamily\color{blue} \underline{source}} contains studies of more candidate sites.
 
 \section{Weaknesses and Future Work}
 \label{sec:weaknesses_and_future_work}
@@ -202,6 +172,8 @@ is a generalization that finds the shortest path from a given starting node to a
 
 \section{Conclusion}
 \label{sec:conclusion}
+\par The goal of this proposal was to establish a pipeline takes DTMs at arbitrary precisions, and outputs the respective traversability maps in a reasonable. Given the more than successful results with the candidate landing sites, we can safely conclude that our goal has been achieved. The final product is a stable piece of software that outputs valuable information, though there is still room for improvement.
+\par As for the landing sites presented in this paper, it would seem that Mawrth Vallis is a great candidate. It is flat and traversable, and given that it is one of the oldest valleys on Mars, is certainly a region of interest. On the other hand, landing sites such as the one near Southwest Arabia Terra appear to be much harder to traverse. Though it may contain valuable information, it is not necessarily a good choice if movement is hindered every step of the way. The traversability maps were created for the sole purpose of aiding the in the choice of landing site and rover design, and it appears that this pipeline would indeed be a useful tool in making those decision.
 
 \clearpage
 \begin{thebibliography}{30}
@@ -232,5 +204,82 @@ is a generalization that finds the shortest path from a given starting node to a
 \bibitem{bib:ESP_015985_2040}
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_015985_2040}
 \end{thebibliography}
+
+\section{Appendix}
+\label{sec:appendix}
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_019757_1560_020034_1560_U01.jpg}
+    \caption{Color altimetry map}
+    \label{fig:eberswalde_dtm}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019757_1560/DTEEC_019757_1560_020034_1560_U01-traversability_map.pdf}
+    \caption{Traversability map}
+    \label{fig:eberswalde_traversability}
+  \end{subfigure}
+  \caption{Mawrth Vallis Landing Site Traversability Map}
+  \label{fig:eberswalde}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_019757_1560/DTEEC_019757_1560_020034_1560_U01-hist.pdf}
+  \caption{Traversability Histogram for the Mawrth Vallis Landing Site}
+  \label{fig:eberswalde_hist}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01.jpg}
+    \caption{Color altimetry map}
+    \label{fig:gale_dtm}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01-traversability_map.pdf}
+    \caption{Traversability map}
+    \label{fig:gale_traversability}
+  \end{subfigure}
+  \caption{Mawrth Vallis Landing Site Traversability Map}
+  \label{fig:gale}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_023957_1755/DTEEC_023957_1755_024023_1755_U01-hist.pdf}
+  \caption{Traversability Histogram for the Mawrth Vallis Landing Site}
+  \label{fig:gale_hist}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019612_1535/DTEEC_019612_1535_019678_1535_U01.jpg}
+    \caption{Color altimetry map}
+    \label{fig:holden_dtm}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_019612_1535/DTEEC_019612_1535_019678_1535_U01-traversability_map.pdf}
+    \caption{Traversability map}
+    \label{fig:holden_traversability}
+  \end{subfigure}
+  \caption{Mawrth Vallis Landing Site Traversability Map}
+  \label{fig:holden}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_019612_1535/DTEEC_019612_1535_019678_1535_U01-hist.pdf}
+  \caption{Traversability Histogram for the Mawrth Vallis Landing Site}
+  \label{fig:holden_hist}
+\end{figure}
 
 \end{document}
