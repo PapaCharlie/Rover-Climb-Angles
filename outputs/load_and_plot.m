@@ -3,6 +3,7 @@ function [max_angles] = load_and_plot(ds)
   % Then ESP name will ESP_xxxxxx_xxxx
   esp = strsplit(ds, '_');
   esp = strcat('ESP_', esp(2), '_', esp(3))
+  mkdir(strcat('../figures/maps/', esp, '/'));
   ds = strrep(strrep(ds, '.fits',''), 'data/', '')
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
@@ -20,7 +21,7 @@ function [max_angles] = load_and_plot(ds)
   h = colorbar;
   ylabel(h, 'Angle required to access');
   xlim([0 size(max_angles,2)]);
-  disp(strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
+  % disp(strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
   saveas(fig, strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
 
   fig = figure;
