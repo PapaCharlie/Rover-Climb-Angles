@@ -36,24 +36,25 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
 \section{Datasets}
 \label{sec:datasets}
 \par For the purposes of this project, we need a dataset that is accurate on a scale that is reasonable relative to the Rover's size. Curiosity was 3 meters long\supcite{bib:curiosity}, and the Mars 2020 rover is also expected to be 3 meters long\supcite{bib:rover2020}. This dictates the order of the resolution of the datasets required for this study to be meaningful. Suppose we had a topographical map with a horizontal resolution on the scale of 20 meters or even 10 meters between data points. Unfortunately, insurmountable rocks and obstacles do come in all shapes and sizes, many of which smaller than 20 meters. Such a map would not necessarily reflect the presence of these obstacles and pose an unforeseen problem to rover. This effectively leaves us with two choices in topographical maps: HSRC DTMs (Digital Topographical Maps) from the Mars Express mission, or HiRISE DTMs from the Mars Reconnaissance Orbiter mission. HSRC DTMs are on the scale of 2 meters per pixel\supcite{bib:hsrc} and HiRISE DTMs are on the accuracy of 1 meter per pixel\supcite{bib:abouthirise}. For the sake of this study's rigor, the decision was made to use the more recent and more accurate HiRISE DTMs. Given that the horizontal resolution of those DTMs is three times smaller than the length of the rover and that their vertical accuracy is ``in the tens of centimeters''\supcite{bib:abouthirise}, any unforeseen obstacles should be small, flat, and, in theory, relatively easy to avoid.
-\par Figure~\ref{fig:dtms} is a table showing which datasets were used, their respective resolutions, area of coverage and size in memory. It is noted that not all candidate landing sites were covered and presented in this proposal, but the algorithm is robust and is designed to be used with all HiRISE DTMs. The datasets were selected for their interesting features and potentially treacherous terrain. Please visit the code's \href{https://github.com/PapaCharlie/Rover-Climb-Angles/tree/master/figures}{\ttfamily\color{blue} \underline{source}} for more maps. The size in memory and number of pixels are quoted to highlight the complexity of the data we will be working with. The average coverage is $\SI{93.44}{\kilo\meter\squared}$, which may seem small, but given that Curiosity's ground speed is about $\SI{0.14}{\kilo\meter\per\hour}$, it would take close to 500 days nonstop to visit every single point. The Marwth Vallis, Gale Crater, Eberswalde Crater Delta and Holden Crater candidate landing sites are covered in multiple parts by these datasets, while only one part of the Ares 3 landing site
+\par Figure~\ref{fig:dtms} is a table showing which datasets were used, their respective resolutions, area of coverage and size in memory. It is noted that not all candidate landing sites were covered and presented in this proposal, but the algorithm is robust and is designed to be used with all HiRISE DTMs. The datasets were selected for their interesting features and potentially treacherous terrain. Please visit the code's \href{https://github.com/PapaCharlie/Rover-Climb-Angles/tree/master/figures/maps/}{\ttfamily\color{blue} \underline{source}} for more maps.
+\par The size in memory and number of pixels are quoted to highlight the complexity of the data we will be working with. The average coverage is $\SI{103.15}{\kilo\meter\squared}$, which may seem small, but given that Curiosity's ground speed is about $\SI{0.14}{\kilo\meter\per\hour}$, it would take close to 500 days nonstop to visit every single point. The Marwth Vallis, Gale Crater, Eberswalde Crater Delta and Holden Crater candidate landing sites are covered in multiple parts by these datasets, while only one part of the Ares 3 landing site
 \begin{figure*}
   \center
   \begin{tabular}{c|c|c|c|c}
     Name & Pixels & Resolution & Area covered & Size in memory\\ \hline
-    ESP\_011417\_1755\supcite{bib:ESP_011417_1755} & 1.70e+08 & 1.011767 & $\SI{111.23}{\kilo\meter\squared}$ & 1.265 GB\\
     ESP\_011844\_1855\supcite{bib:ESP_011844_1855} & 1.74e+08 & 1.011655 & $\SI{107.39}{\kilo\meter\squared}$ & 1.297 GB\\
-    ESP\_015985\_2040\supcite{bib:ESP_015985_2040} & 1.33e+08 & 1.008208 & $\SI{96.15}{\kilo\meter\squared}$ & 0.987 GB\\
-    ESP\_018854\_1755\supcite{bib:ESP_018854_1755} & 1.06e+08 & 1.011763 & $\SI{77.00}{\kilo\meter\squared}$ & 0.793 GB\\
-    ESP\_019045\_1530\supcite{bib:ESP_019045_1530} & 1.91e+08 & 1.007169 & $\SI{124.38}{\kilo\meter\squared}$ & 1.426 GB\\
+    ESP\_023957\_1755\supcite{bib:ESP_023957_1755} & 1.14e+08 & 1.011763 & $\SI{79.47}{\kilo\meter\squared}$ & 0.853 GB\\
     ESP\_019612\_1535\supcite{bib:ESP_019612_1535} & 1.90e+08 & 1.007219 & $\SI{122.50}{\kilo\meter\squared}$ & 1.419 GB\\
     ESP\_019757\_1560\supcite{bib:ESP_019757_1560} & 1.64e+08 & 1.008208 & $\SI{110.22}{\kilo\meter\squared}$ & 1.222 GB\\
-    ESP\_019823\_1530\supcite{bib:ESP_019823_1530} & 1.26e+08 & 1.007169 & $\SI{83.93}{\kilo\meter\squared}$ & 0.939 GB\\
-    ESP\_020324\_1555\supcite{bib:ESP_020324_1555} & 1.25e+08 & 1.008161 & $\SI{79.12}{\kilo\meter\squared}$ & 0.928 GB\\
-    ESP\_023957\_1755\supcite{bib:ESP_023957_1755} & 1.14e+08 & 1.011763 & $\SI{79.47}{\kilo\meter\squared}$ & 0.853 GB\\
-    ESP\_024234\_1755\supcite{bib:ESP_024234_1755} & 1.11e+08 & 1.011757 & $\SI{77.08}{\kilo\meter\squared}$ & 0.828 GB\\
-    ESP\_028011\_2055\supcite{bib:ESP_028011_2055} & 8.05e+07 & 1.007485 & $\SI{61.31}{\kilo\meter\squared}$ & 0.600 GB\\
-    ESP\_041277\_2115\supcite{bib:ESP_041277_2115} & 1.21e+08 & 1.005475 & $\SI{85.00}{\kilo\meter\squared}$ & 0.899 GB
+    ESP\_015985\_2040\supcite{bib:ESP_015985_2040} & 1.33e+08 & 1.008208 & $\SI{96.15}{\kilo\meter\squared}$ & 0.987 GB
+    % ESP\_011417\_1755\supcite{bib:ESP_011417_1755} & 1.70e+08 & 1.011767 & $\SI{111.23}{\kilo\meter\squared}$ & 1.265 GB\\
+    % ESP\_018854\_1755\supcite{bib:ESP_018854_1755} & 1.06e+08 & 1.011763 & $\SI{77.00}{\kilo\meter\squared}$ & 0.793 GB\\
+    % ESP\_019045\_1530\supcite{bib:ESP_019045_1530} & 1.91e+08 & 1.007169 & $\SI{124.38}{\kilo\meter\squared}$ & 1.426 GB\\
+    % ESP\_019823\_1530\supcite{bib:ESP_019823_1530} & 1.26e+08 & 1.007169 & $\SI{83.93}{\kilo\meter\squared}$ & 0.939 GB\\
+    % ESP\_020324\_1555\supcite{bib:ESP_020324_1555} & 1.25e+08 & 1.008161 & $\SI{79.12}{\kilo\meter\squared}$ & 0.928 GB\\
+    % ESP\_024234\_1755\supcite{bib:ESP_024234_1755} & 1.11e+08 & 1.011757 & $\SI{77.08}{\kilo\meter\squared}$ & 0.828 GB\\
+    % ESP\_028011\_2055\supcite{bib:ESP_028011_2055} & 8.05e+07 & 1.007485 & $\SI{61.31}{\kilo\meter\squared}$ & 0.600 GB\\
+    % ESP\_041277\_2115\supcite{bib:ESP_041277_2115} & 1.21e+08 & 1.005475 & $\SI{85.00}{\kilo\meter\squared}$ & 0.899 GB
   \end{tabular}
   \caption{DTMs used and their respective properties}
   \label{fig:dtms}
