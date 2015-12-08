@@ -1,8 +1,8 @@
 function [max_angles] = load_and_plot(ds)
   ds = strrep(strrep(ds, '.fits',''), 'data/', '')
-  fileID = fopen(ds);
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
+  fileID = fopen(strcat(ds, '.bin'));
   max_angles = fread(fileID, data_size, 'double', 0, 'b');
 
   max_angles(max_angles == Inf) = NaN;
