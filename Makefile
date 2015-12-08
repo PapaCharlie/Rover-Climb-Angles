@@ -45,7 +45,7 @@ dijkstra:
 $(DTMS):
 	$(eval FITS := $(subst .IMG,.fits,$@))
 	$(eval BIN := $(subst data,outputs,$(subst .IMG,.bin,$@)))
-	test -e $(FITS) || img2fits "$@"
+	test -e $(FITS) || ./img2fits.py "$@"
 	if [ ! -e $(BIN) ] ; then \
 		make dijkstra && dijkstra/dijkstra $(FITS) ; \
 	fi
