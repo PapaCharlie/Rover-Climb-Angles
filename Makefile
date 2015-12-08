@@ -30,12 +30,19 @@ links:
 	-rm $(PDF)
 	ln -s .build/*.pdf .
 
+# Download all the DTM currently tracked in this repo
+wget:
+	cd data && wget -i datasets.txt
+
+# Download the Golang dependencies
 goget:
 	go get "github.com/siravan/fits"
 
+# Build the Golang program
 dijkstra:
 	cd dijkstra && go build
 
+# Compute the traversability map for a DTM
 $(DTMS):
 	$(eval FITS := $(subst .IMG,.fits,$@))
 	$(eval BIN := $(subst .IMG,.bin,$@))

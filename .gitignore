@@ -4,5 +4,6 @@ outputs/*.bin
 final_project.pdf
 *.mat
 *.pyc
-*.IMG
-*.fits
+data/*.IMG
+data/*.fits
+data/*.pdslabel

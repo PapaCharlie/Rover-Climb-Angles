@@ -37,7 +37,7 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
 \label{sec:datasets}
 \par For the purposes of this project, we need a dataset that is accurate on a scale that is reasonable relative to the Rover's size. Curiosity was 3 meters long\supcite{bib:curiosity}, and the Mars 2020 rover is also expected to be 3 meters long\supcite{bib:rover2020}. This dictates the order of the resolution of the datasets required for this study to be meaningful. Suppose we had a topographical map with a horizontal resolution on the scale of 20 meters or even 10 meters between data points. Unfortunately, insurmountable rocks and obstacles do come in all shapes and sizes, many of which smaller than 20 meters. Such a map would not necessarily reflect the presence of these obstacles and pose an unforeseen problem to rover. This effectively leaves us with two choices in topographical maps: HSRC DTMs (Digital Topographical Maps) from the Mars Express mission, or HiRISE DTMs from the Mars Reconnaissance Orbiter mission. HSRC DTMs are on the scale of 2 meters per pixel\supcite{bib:hsrc} and HiRISE DTMs are on the accuracy of 1 meter per pixel\supcite{bib:abouthirise}. For the sake of this study's rigor, the decision was made to use the more recent and more accurate HiRISE DTMs. Given that the horizontal resolution of those DTMs is three times smaller than the length of the rover and that their vertical accuracy is ``in the tens of centimeters''\supcite{bib:abouthirise}, any unforeseen obstacles should be small, flat, and, in theory, relatively easy to avoid.
 \par Figure~\ref{fig:dtms} is a table showing which datasets were used, their respective identifiers, resolutions and area of coverage. It is noted that not all candidate landing sites were covered and presented in this proposal, but the algorithm is robust and is designed to be used with all HiRISE DTMs. The datasets were selected for their interesting features and potentially treacherous terrain. Please visit the code's \href{https://github.com/PapaCharlie/Rover-Climb-Angles/tree/master/figures/maps/}{\ttfamily\color{blue} \underline{source}} for more maps.
-\par The number of pixels are quoted to highlight the complexity of the data we will be working with. Additionally, each pixel is stored as 64-bit floating point number in memory. In other words, each dataset occupies more than 1 GB of ram, making them tricky to work with in most languages.
+\par The number of pixels is quoted to highlight the complexity of the data we will be working with. Additionally, each pixel is stored as 64-bit floating point number in memory. In other words, each dataset occupies more than 1 GB of ram, making them tricky to work with in most languages.
 \par The average coverage is $\SI{103.15}{\kilo\meter\squared}$, which may seem small, but given that Curiosity's ground speed is about $\SI{0.14}{\kilo\meter\per\hour}$, it would take close to 500 days nonstop to visit every single point. The Marwth Vallis, Gale Crater, Eberswalde Crater Delta and Holden Crater candidate landing sites are covered in multiple parts by these datasets, while only one part of the Ares 3 landing site
 \begin{figure*}
   \center
@@ -52,6 +52,10 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
   \caption{DTMs used and their respective properties}
   \label{fig:dtms}
 \end{figure*}
+
+\section{The Algorithm}
+\label{sec:the_algorithm}
+\par Due to the sheer size of the data, there immediately were some problems.
 
 \section{Conclusions}
 \label{sec:conclusions}
@@ -74,32 +78,16 @@ A plot that shows a rover's maximum climb angle versus total area coverable woul
   \url{http://pds-geosciences.wustl.edu/missions/mars_express/hrsc.htm}
 \bibitem{bib:groundspeed}
   \url{http://www.space.com/22226-mars-rover-curiosity-time-lapse-video.html}
-\bibitem{bib:ESP_011417_1755}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_011417_1755}
 \bibitem{bib:ESP_011844_1855}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_011844_1855}
-\bibitem{bib:ESP_015985_2040}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_015985_2040}
-\bibitem{bib:ESP_018854_1755}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_018854_1755}
-\bibitem{bib:ESP_019045_1530}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_019045_1530}
-\bibitem{bib:ESP_019612_1535}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_019612_1535}
-\bibitem{bib:ESP_019757_1560}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_019757_1560}
-\bibitem{bib:ESP_019823_1530}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_019823_1530}
-\bibitem{bib:ESP_020324_1555}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_020324_1555}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_011844_1855}
 \bibitem{bib:ESP_023957_1755}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_023957_1755}
-\bibitem{bib:ESP_024234_1755}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_024234_1755}
-\bibitem{bib:ESP_028011_2055}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_028011_2055}
-\bibitem{bib:ESP_041277_2115}
-  \url{http://www.uahirise.org/dtm/dtm.php?ID=ESP_041277_2115}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_023957_1755}
+\bibitem{bib:ESP_019612_1535}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019612_1535}
+\bibitem{bib:ESP_019757_1560}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019757_1560}
+\bibitem{bib:ESP_015985_2040}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_015985_2040}
 \end{thebibliography}
 
 \end{document}
