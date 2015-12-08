@@ -2,7 +2,6 @@ outputs/*.bin
 .build/
 .ipynb_checkpoints/
 final_project.pdf
-*.mat
 *.pyc
 data/*.IMG
 data/*.fits
