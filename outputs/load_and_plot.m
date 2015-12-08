@@ -29,6 +29,6 @@ function load_and_plot(ds)
   histogram(required, 50);
   xlabel 'Required angle';
   ylabel 'Num pixels';
-  xlim([-60 60])
+  xlim([-40 40]);
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-hist.pdf')));
 end
