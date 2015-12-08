@@ -5,7 +5,7 @@ PDF := $(SRC:.tex=.pdf)
 FIGURES := $(filter-out *-crop.pdf, $(shell find figures -name "*.pdf" -type f))
 DTMS := $(wildcard data/DTEEC*.IMG)
 
-.PHONY: all $(DTMS)
+.PHONY: all $(DTMS) dijkstra
 
 all:
 	-mkdir .build
@@ -44,7 +44,7 @@ dijkstra:
 # Compute the traversability map for a DTM
 $(DTMS):
 	$(eval FITS := $(subst .IMG,.fits,$@))
-	$(eval BIN := $(subst .IMG,.bin,$@))
+	$(eval BIN := $(subst data,outputs,$(subst .IMG,.bin,$@)))
 	test -e $(FITS) || img2fits "$@"
 	if [ ! -e $(BIN) ] ; then \
 		make dijkstra && dijkstra/dijkstra $(FITS) ; \
