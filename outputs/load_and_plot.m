@@ -23,4 +23,5 @@ function [max_angles] = load_and_plot(ds)
   xlabel 'Required angle';
   ylabel 'Num pixels';
   saveas(fig, strcat('../figures/maps/', ds, '/', ds, '-hist.pdf'));
+  return
 end
