@@ -48,7 +48,7 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
     Southwest Arabia Terra &  ESP\_011844\_1855\supcite{bib:ESP_011844_1855} & 1.74e+08 & 1.011655 & $\SI{107.39}{\kilo\meter\squared}$\\
     Gale Crater &             ESP\_023957\_1755\supcite{bib:ESP_023957_1755} & 1.14e+08 & 1.011763 & $\SI{79.47}{\kilo\meter\squared}$\\
     Holden Crater &           ESP\_019612\_1535\supcite{bib:ESP_019612_1535} & 1.90e+08 & 1.007219 & $\SI{122.50}{\kilo\meter\squared}$\\
-    Eberswalde Crater Delta & ESP\_019757\_1560\supcite{bib:ESP_019757_1560} & 1.64e+08 & 1.008208 & $\SI{110.22}{\kilo\meter\squared}$\\
+    Eberswalde Crater &       ESP\_020324\_1555\supcite{bib:ESP_020324_1555} & 1.64e+08 & 1.008208 & $\SI{110.22}{\kilo\meter\squared}$\\
     Mawrth Vallis &           ESP\_015985\_2040\supcite{bib:ESP_015985_2040} & 1.33e+08 & 1.008208 & $\SI{96.15}{\kilo\meter\squared}$\\
   \end{tabular}
   \caption{DTMs used and their respective properties}
@@ -106,23 +106,23 @@ is a generalization that finds the shortest path from a given starting node to a
 % Southwest Arabia Terra &  ESP_011844_1855
 % Gale Crater &             ESP_023957_1755
 % Holden Crater &           ESP_019612_1535
-% Eberswalde Crater Delta & ESP_019757_1560
+% Eberswalde Crater &       ESP_019757_1560
 % Mawrth Vallis &           ESP_015985_2040
 \par We can finally begin presenting the results of our hard work.
-\subsection{Southwest Arabia Terra}
+\subsection{Southwest Arabia Terra\supcite{bib:ESP_011844_1855}}
 \label{sub:southwest_arabia_terra}
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.33\textwidth}
+  \begin{subfigure}[t]{0.27\textwidth}
     \centering
-    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01.jpg}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01.jpg}
     \caption{Color altimetry map}
     \label{fig:southwest_dtm}
   \end{subfigure}
   ~
-  \begin{subfigure}[t]{0.33\textwidth}
+  \begin{subfigure}[t]{0.27\textwidth}
     \centering
-    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-traversability_map.pdf}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-traversability_map.pdf}
     \caption{Traversability map}
     \label{fig:southwest_traversability}
   \end{subfigure}
@@ -130,28 +130,27 @@ is a generalization that finds the shortest path from a given starting node to a
   \label{fig:southwest}
 \end{figure}
 \par Figure~\ref{fig:southwest_dtm} and Figure~\ref{fig:southwest_traversability} respectively show the colored DTM, and the output traversability map for the Southwest Arabia Terra landing site. This map shows some rather interesting features. As we can see, the dark blue and the dark red in lower third of the site seem to indicate that the area is completely inaccessible. There is a very clear dividing line between this third and the rest of the map. This line is reflected in the DTM, where there is a cliff face along it. It does appear that the algorithm highlights these features and handled the cliff face quite well. As for the upper half of the map, there also seems to be a less severe divide between the low basin in the middle, and the higher terrain. The rover needs to be able to climb at least 5\textdegree to access this area. Looking at the traversability histogram in Figure~\ref{fig:southwest_hist}, we see that there are still a lot of pixels beyond the $\pm$20\textdegree bound, and a large segment of the pixels are located between +10\textdegree and +20\textdegree, i.e. the orange band above the inaccessible area.
-
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/maps/ESP_011844_1855/DTEEC_011844_1855_002812_1855_A01-hist.pdf}
-  \caption{Traversability histogram for the Southwest Arabia Terra Landing Site}
+  \caption{Traversability Histogram for the Southwest Arabia Terra Landing Site}
   \label{fig:southwest_hist}
 \end{figure}
 
-\subsection{Mawrth Vallis}
+\subsection{Mawrth Vallis\supcite{bib:ESP_015985_2040}}
 \label{sub:mawrth_vallis}
 \begin{figure}[h!]
   \centering
-  \begin{subfigure}[t]{0.43\textwidth}
+  \begin{subfigure}[t]{0.35\textwidth}
     \centering
-    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01.jpg}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01.jpg}
     \caption{Color altimetry map}
     \label{fig:mawrth_dtm}
   \end{subfigure}
   ~
-  \begin{subfigure}[t]{0.43\textwidth}
+  \begin{subfigure}[t]{0.35\textwidth}
     \centering
-    \includegraphics[height=0.5\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-traversability_map.pdf}
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-traversability_map.pdf}
     \caption{Traversability map}
     \label{fig:mawrth_traversability}
   \end{subfigure}
@@ -159,15 +158,44 @@ is a generalization that finds the shortest path from a given starting node to a
   \label{fig:mawrth}
 \end{figure}
 \par This section of the Mawrth Vallis landing site was chosen because of its odd topography. The DTM in Figure~\ref{fig:mawrth_dtm} suggests that there are three distinct plateaus, and no guarantee that there exists a climbable path connecting them. In other words, if the rover were to land in the lowest plateau, it would never be able to gain access to the remaining ones, and vice versa. Fortunately, the traversability map in Figure~\ref{fig:mawrth_traversability} informs us that the entire section is in fact quite flat. Almost all of the traversability map is shaded in yellow or light blue, implying that those areas can be reached with a required angle of $\pm$5\textdegree. Looking at the histogram in Figure~\ref{fig:mawrth_hist}, 95\% of the landing site can be covered with a little less than $\pm$10\textdegree.
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/maps/ESP_015985_2040/DTEEC_015985_2040_016262_2040_U01-hist.pdf}
-  \caption{Traversability histogram for the Mawrth Vallis Terra Landing Site}
+  \caption{Traversability Histogram for the Mawrth Vallis Landing Site}
   \label{fig:mawrth_hist}
 \end{figure}
 
+\subsection{Eberswalde Crater\supcite{bib:ESP_015985_2040}}
+\label{sub:eberswalde_crater}
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.27\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01.jpg}
+    \caption{Color altimetry map}
+    \label{fig:eberswalde_dtm}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[t]{0.27\textwidth}
+    \centering
+    \includegraphics[height=0.4\paperheight]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01-traversability_map.pdf}
+    \caption{Traversability map}
+    \label{fig:eberswalde_traversability}
+  \end{subfigure}
+  \caption{Eberswalde Crater Landing Site Traversability Map}
+  \label{fig:eberswalde}
+\end{figure}
+\par Finally, let us look at the landing site in Eberswalde crater. This section of the landing site looked relatively harmless at first.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{figures/maps/ESP_020324_1555/DTEEC_020324_1555_020390_1555_U01-hist.pdf}
+  \caption{Traversability Histogram for the Eberswalde Crater Landing Site}
+  \label{fig:eberswalde_hist}
+\end{figure}
 
-% \begin{figure}[h!]
+
+
+% \begin{figure}[H]
 %   \centering
 %   \begin{subfigure}[t]{0.37\textwidth}
 %     \centering
@@ -193,7 +221,7 @@ is a generalization that finds the shortest path from a given starting node to a
 \section{Conclusion}
 \label{sec:conclusion}
 
-\pagebreak
+\clearpage
 \begin{thebibliography}{30}
 \bibitem{bib:rover2020}
   \url{http://mars.nasa.gov/mars2020/mission/rover/}
@@ -217,8 +245,8 @@ is a generalization that finds the shortest path from a given starting node to a
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_023957_1755}
 \bibitem{bib:ESP_019612_1535}
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019612_1535}
-\bibitem{bib:ESP_019757_1560}
-  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_019757_1560}
+\bibitem{bib:ESP_020324_1555}
+  \url{www.uahirise.org/dtm/dtm.php?ID=ESP_020324_1555}
 \bibitem{bib:ESP_015985_2040}
   \url{www.uahirise.org/dtm/dtm.php?ID=ESP_015985_2040}
 \end{thebibliography}
