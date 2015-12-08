@@ -22,12 +22,12 @@ function load_and_plot(ds)
   ylabel(h, 'Angle required to access');
   xlim([0 size(max_angles,2)]);
   % disp(strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
-  saveas(fig, strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
+  saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-traversability_map.pdf')));
 
   fig = figure;
   histogram(max_angles, 50);
   xlabel 'Required angle';
   ylabel 'Num pixels';
-  saveas(fig, strcat('../figures/maps/', esp, '/', ds, '-hist.pdf'));
+  saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-hist.pdf')));
   return
 end
