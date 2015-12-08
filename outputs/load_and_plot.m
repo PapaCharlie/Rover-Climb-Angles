@@ -22,7 +22,10 @@ function load_and_plot(ds)
   h = colorbar;
   ylabel(h, 'Angle required to access');
   xlim([0 size(required,2)]);
-  % disp(strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
+  set(gca,'xtick',[]);
+  set(gca,'xticklabel',[]);
+  set(gca,'ytick',[]);
+  set(gca,'yticklabel',[]);
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-traversability_map.pdf')));
 
   fig = figure;
