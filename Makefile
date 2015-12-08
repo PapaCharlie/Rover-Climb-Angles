@@ -37,4 +37,4 @@ $(DTMS):
 	if [ ! -e $(BIN) ] ; then \
 		cd dijkstra && go build && cd .. && dijkstra/dijkstra $(FITS) ; \
 	fi
-	cd outputs ; matlab -nodesktop -nosplash -r "load_and_plot('$(FITS)')"
+	cd outputs ; matlab -nodesktop -nosplash -r "load_and_plot('$(FITS)');exit"
