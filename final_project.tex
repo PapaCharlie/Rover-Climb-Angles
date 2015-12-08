@@ -1,7 +1,8 @@
 \documentclass[12pt]{article}
 % \documentclass[12pt, twocolumn]{article}
 \usepackage[margin=2.5cm]{geometry}
-\usepackage{enumerate, fancyhdr, graphicx, amsmath, lipsum, wrapfig, nameref, url, hyperref, setspace, color}
+\usepackage{enumerate, fancyhdr, graphicx, amsmath, lipsum, wrapfig, nameref, url,
+              hyperref, setspace, color, csquotes, textcomp }
 
 \title{Mars Landing Site Traversability}
 \author{Paul Chesnais (pmc85)}
@@ -24,6 +25,7 @@
 
 \newcommand{\p}[1]{\times 10^{#1}}
 \newcommand{\supcite}[1]{\textsuperscript{\cite{#1}}}
+\newcommand{\MATLAB}{MATLAB\textsuperscript{\textregistered}}
 
 \begin{document}
 \maketitle
@@ -37,8 +39,8 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
 \label{sec:datasets}
 \par For the purposes of this project, we need a dataset that is accurate on a scale that is reasonable relative to the Rover's size. Curiosity was 3 meters long\supcite{bib:curiosity}, and the Mars 2020 rover is also expected to be 3 meters long\supcite{bib:rover2020}. This dictates the order of the resolution of the datasets required for this study to be meaningful. Suppose we had a topographical map with a horizontal resolution on the scale of 20 meters or even 10 meters between data points. Unfortunately, insurmountable rocks and obstacles do come in all shapes and sizes, many of which smaller than 20 meters. Such a map would not necessarily reflect the presence of these obstacles and pose an unforeseen problem to rover. This effectively leaves us with two choices in topographical maps: HSRC DTMs (Digital Topographical Maps) from the Mars Express mission, or HiRISE DTMs from the Mars Reconnaissance Orbiter mission. HSRC DTMs are on the scale of 2 meters per pixel\supcite{bib:hsrc} and HiRISE DTMs are on the accuracy of 1 meter per pixel\supcite{bib:abouthirise}. For the sake of this study's rigor, the decision was made to use the more recent and more accurate HiRISE DTMs. Given that the horizontal resolution of those DTMs is three times smaller than the length of the rover and that their vertical accuracy is ``in the tens of centimeters''\supcite{bib:abouthirise}, any unforeseen obstacles should be small, flat, and, in theory, relatively easy to avoid.
 \par Figure~\ref{fig:dtms} is a table showing which datasets were used, their respective identifiers, resolutions and area of coverage. It is noted that not all candidate landing sites were covered and presented in this proposal, but the algorithm is robust and is designed to be used with all HiRISE DTMs. The datasets were selected for their interesting features and potentially treacherous terrain. Please visit the code's \href{https://github.com/PapaCharlie/Rover-Climb-Angles/tree/master/figures/maps/}{\ttfamily\color{blue} \underline{source}} for more maps.
-\par The number of pixels is quoted to highlight the complexity of the data we will be working with. Additionally, each pixel is stored as 64-bit floating point number in memory. In other words, each dataset occupies more than 1 GB of ram, making them tricky to work with in most languages.
-\par The average coverage is $\SI{103.15}{\kilo\meter\squared}$, which may seem small, but given that Curiosity's ground speed is about $\SI{0.14}{\kilo\meter\per\hour}$, it would take close to 500 days nonstop to visit every single point. The Marwth Vallis, Gale Crater, Eberswalde Crater Delta and Holden Crater candidate landing sites are covered in multiple parts by these datasets, while only one part of the Ares 3 landing site
+\par The number of pixels is quoted to highlight the complexity of the data we will be working with. Additionally, each pixel is stored as 64-bit floating point number in memory. In other words, each dataset occupies more than 1 GB of ram, making them tricky to work with in most languages. The value of each pixel represents its vertical distance from a theoretical, well defined sphere surrounding Mars. Not every DTM uses a sphere of the same radius, but each DTM is consistent throughout. Therefore subtracting the value of one pixel from its neighbor gives us the difference in height between the two.
+\par The average coverage is $\SI{103.15}{\kilo\meter\squared}$, which may seem small, but given that Curiosity's ground speed is about $\SI{0.14}{\kilo\meter\per\hour}$, it would take close to 500 days nonstop to visit every single point.
 \begin{figure*}
   \center
   \begin{tabular}[b]{c|c|c|c|c}
@@ -53,12 +55,55 @@ Exploring a planet on the ground isn't easy. Especially since as of right now, r
   \label{fig:dtms}
 \end{figure*}
 
-\section{Methods}
-\label{sec:the_algorithm}
-\subsection{The Algorithm}
+\section{Method}
+\label{sec:method}
+\subsection{Modified Dijkstra's Algorithm}
 \label{sub:the_algorithm}
-\par The algorithm used was inspired by the single-source version of Dijsktra's algorithm. Dijsktra's algorithm is an algorithm used to find the shortest path from the starting node to a given node. The single-source version is a generalization that finds the shortest path from a given starting node to all the nodes in a graph.
-\par To begin, we treat the DTM as a graph, where all pixels are nodes, connected to their 4 neighbors to the East, North, West and South. To avoid any extrapolation, pixels are not connected to their diagonal neighbors.
+\par The algorithm used was inspired by the single-source version of Dijkstra's algorithm. Dijkstra's algorithm is an algorithm used to find the shortest path from the starting node to a given node. The single-source version
+is a generalization that finds the shortest path from a given starting node to all the nodes in a graph. This modified version of the algorithm finds the flattest path between two points, i.e. the path that requires the flattest climbing angle. The ``required'' angle, in this case, would be the angle of the steepest slope along the path between the two points.
+\par Suppose we have a graph representing a topographical map, with $V$ the set of all nodes in the graph, and $E$ the set of all edges. Each node in the graph represents a physical location and its associated altitude. For notation, let the height of a given node $u$ be returned by $height(u)$, the function $d(u.v)$ be the function that returns the physical distance between $u$ and $v$, and the function $angle(u,v)$ be the function that returns the angle of the slope between points $u$ and $v$. For any two connected nodes $u$ and $v$, the value of the edge $(u,v)$ that connects them is $angle(u,v)$. Finally, for two nodes $u$ and $v$, we have:
+\begin{align*}
+  angle(u,v) = \tan^{-1}\left(\frac{height(u) - height(v)}{d(u,v)}\right)
+\end{align*}
+\pagebreak
+\par We also define a data structure, called a Frontier, that contains pairs of nodes and angles. Let us define a series of functions for this data structure, where $fr$ is a Frontier:
+\begin{itemize}
+  \item For a node $v$ and an angle $\alpha$, let $push(fr, (v,\alpha))$ add the pair $(v, \alpha)$ to the Frontier $fr$. If there exists a pair $(v,\beta)$ in $fr$ such that $|\alpha| \leq |\beta|$, remove the pair $(v,\beta)$ and add the pair $(v,\alpha$.
+  \item Let $pop(fr)$ return the pair $(v, \alpha)$ such that for pairs $(u,\beta)$ in $fr$: $|\alpha| \leq |\beta|$.
+  \item Let $\|fr\|$ be the number of pairs contained in $fr$.
+\end{itemize}
+\par We can use the above to express the modified Dijkstra's algorithm, given an arbitrary starting node $s$:
+\begin{enumerate}[Step 1]
+  \item Define an array $required$ such that $required[v]$ returns the flattest required angle for the paths that connect $s$ to $v$. Because no nodes have been visited yet, set $required[v] = +\infty$ for all nodes $v$ in the set $V$. Define an empty Frontier $fr$.
+  \item Visit $s$, i.e. execute $push(fr, (s, 0))$ and set $required[s] := 0$.
+  \item Let $(v,\alpha) = pop(fr)$. For all each neighbor $n$ of $v$, do the following:
+  \begin{displayquote}
+    Let $\alpha := angle(v,n)$ if $|required[v]| < |angle(v,n)|)$, otherwise $\alpha := required[v]$. If $ |\alpha| < |required[n]|$: set $required[n] := \alpha$ and $push(fr, (n, \alpha))$.
+  \end{displayquote}
+  Repeat Step 3 until $|fr| == 0$
+\end{enumerate}
+\par For this algorithm, the Frontier represents the the set of nodes that we can reach from the set of nodes that we've explored. By popping the flattest pair from the Frontier every time, we guarantee that the associated required angle for each node on the frontier is the flattest possible. Suppose two neighboring nodes $u$ and $v$, such that $required[v] = 0$, $|angle(v,u) > 0|$, and $u$ has not yet been visited. The value set at $required[u]$ must be $angle(v,u)$, otherwise $u$ will inherit a flatter angle than what is required in reality. Therefore Step 3 maintains the correctness of the traversal by setting the value in $required$ to be whichever angle is steeper between $required[v]$ and $angle(v,n)$. With the guarantees maintained by Step 3 and the Frontier data structure, every time we associate a required angle to a given node, said angle is the flattest, and the final $required$ contains the correct values for all nodes.
+
+\subsection{Using the data}
+\label{sub:using_the_data}
+\par First, we want to represent the Graph explained above using the data. In this case, each pixel is a node $p$ and $height(p)$ is simply the value in the DTM at the position $p$. Next, each pixel is connected to its 4 closest neighbors, i.e. the pixels that are directly in contact with it. To avoid interpolation and potential errors, pixels are not connected to diagonal neighbors. As such, we can also set $d(u,v)$ to always be equal to the horizontal resolution in the dataset for any two neighboring pixels $u$ and $v$.
+\par Next, we need to provide an implementation of the Frontier data structure, to the same specifications as defined above. In this case, a MinHeap is ideal because it fits the exact criteria. A MinHeap is a balanced data structure, where $push$ and $pop$ operations require that the MinHeap be rebalanced. If there are $n$ elements in the MinHeap, then rebalancing the MinHeap will take at worst $\log_2(n)$ operations. This means that finding the flattest pair in the MinHeap can be done very quickly with little overhead. Since our DTMs usually have more than 100 million pixels and the frontier of visited pixels can grow arbitrarily large, fast $push$ and $pop$ operations become crucial.
+\par Finally, we need to create the $required$ array. This is easily done by creating an array the same size as the DTM, then indexing into it exactly like we index into the DTM. Unfortunately, these operations become computationally expensive quite quickly. If the DTM takes 1 GB in memory, so will the $required$ array. Additionally, as said before, the Frontier can grow arbitrarily large. As such, in the absolute worst case scenario, computing the traversability map can require up to 3 GB of memory at runtime. This causes a lot of issues because not all of the data can be loaded into the processor's more restricted memory at a time, meaning that a lot of time is spent waiting for data from RAM. Fortunately, Modern RAM responds quite quickly and data usually will take a handful of CPU cycles to arrive.
+
+\subsection{Optimizations}
+\label{sub:optimizations}
+\par There was an initial, fruitless attempt at implementing this in \MATLAB{}. To illustrate the speed of the process, the program gave periodic progress updates in the form of messages saying that a certain integer percent of the pixels had been visited. Unfortunately, these progress updates came at the rate of about once every hour, leading one to believe that iterating over all of the datasets could, and most likely would, take weeks. Clearly, a radical change need to be made.
+\par As such, \MATLAB{} was dropped, and Golang became the language of choice. Because Golang is compiled, the same program was expected to run more efficiently. The current implementation of the algorithm takes less than 2 minutes to compute the entire traversability map. An immense, unexpected, yet welcome change in runtime meant that we could move on at a more reasonable pace.
+% Other, smaller, optimizations were made. For example, computing trigonometric functions is computationally expensive because it requires approximating an infinite sum. As such, instead of computing the arc tangent of the difference in height between two neighbors over the resolution, only the difference in height was recorded.
+
+\subsection{Data Pipeline}
+\label{sub:data_pipeline}
+\par HiRISE DTMs come in the form of IMG files. This meant that they needed to be converted into a format that was readable by Golang. Golang already has a library that can read FITS files. As such, the USGS ISIS software package was used to convert the IMG files into FITS files. Then it is a simple matter of extracting the resolution and image size from the label included in the IMG file to get all the information required to compute the map.
+\par Once the algorithm has run its course, it saves the map to disk in a format that is readable by \MATLAB{}. The map is loaded into memory and stretched between -20\textdegree and 20\textdegree to show detail, under the assumption that rovers cannot, or prefer not to, climb slopes past those angles. Finally, a histogram is plotted to show the number of pixels that require a certain angle to reach.
+
+\section{Results}
+\label{sec:results}
+
 
 \section{Conclusions}
 \label{sec:conclusions}

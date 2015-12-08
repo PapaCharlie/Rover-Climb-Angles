@@ -8,26 +8,26 @@ function load_and_plot(ds)
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
   fileID = fopen(strcat(ds, '.bin'));
-  max_angles = fread(fileID, data_size, 'double', 0, 'b');
+  required = fread(fileID, data_size, 'double', 0, 'b');
 
-  max_angles(max_angles == Inf) = NaN;
-  max_angles = atand(max_angles);
-  low = max(min(max_angles(:)), -20);
-  high = min(max(max_angles(:)), 20);
+  required(required == Inf) = NaN;
+  required = required./site.res;
+  required = atand(required);
+  low = max(min(required(:)), -20);
+  high = min(max(required(:)), 20);
   fig = figure;
-  imagesc(max_angles, [ low high ]);
+  imagesc(required, [ low high ]);
   colormap([ 0 0 0; jet ]);
   axis equal;
   h = colorbar;
   ylabel(h, 'Angle required to access');
-  xlim([0 size(max_angles,2)]);
+  xlim([0 size(required,2)]);
   % disp(strcat('../figures/maps/', esp, '/', ds, '-traversability_map.pdf'));
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-traversability_map.pdf')));
 
   fig = figure;
-  histogram(max_angles, 50);
+  histogram(required, 50);
   xlabel 'Required angle';
   ylabel 'Num pixels';
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-hist.pdf')));
-  return
 end
