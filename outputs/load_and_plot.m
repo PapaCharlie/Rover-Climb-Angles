@@ -36,6 +36,7 @@ function [required] = load_and_plot(ds)
   lim = get(gca, 'YLim');
   left = prctile(required(~isnan(required)), 2.5);
   right = prctile(required(~isnan(required)), 97.5);
-  p = patch([left, right, right, left], [0, 0, lim(2), lim(2)], 'FaceColor', 'k', 'FaceAlpha', 0.2);
+  p = patch([left, right, right, left], [0, 0, lim(2), lim(2)], 'k');
+  p.FaceAlpha = 0.2;
   saveas(fig, char(strcat('../figures/maps/', char(esp), '/', char(ds), '-hist.pdf')));
 end
