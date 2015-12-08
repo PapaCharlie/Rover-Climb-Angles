@@ -3,8 +3,7 @@ function [max_angles] = load_and_plot(ds)
   % Then ESP name will ESP_xxxxxx_xxxx
   esp = strsplit(ds, '_');
   esp = strcat('ESP_', esp(2), '_', esp(3))
-  p = strcat('../figures/maps/', esp, '/')
-  mkdir(num2str(p));
+  mkdir('../figures/maps/', esp);
   ds = strrep(strrep(ds, '.fits',''), 'data/', '')
   site = LandingSite(ds);
   data_size = [site.label.image.lines, site.label.image.linesamples];
